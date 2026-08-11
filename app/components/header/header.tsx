@@ -2,13 +2,13 @@ import { Logo } from "../components"
 import { NavigationBar } from "../components"
 import { BecomeAnHost } from "../components"
 import { LanguageAndRegion } from "../components"
-import { HelpBar } from "../components"
+import { MenuButton } from "../components"
 import { SearchBar } from "./searchbar"
 
 export default function Header() {
     return (
       <header className="flex flex-col gap-4 px-4 md:px-8 py-4">
-        <div className="hidden md:flex items-center justify-between w-full ">
+        <div className="hidden sm:flex items-center justify-between w-full ">
           <Logo />
           <NavigationBar />
           <div className="flex items-center gap-6">
@@ -16,7 +16,7 @@ export default function Header() {
               <BecomeAnHost />
             </div>
             <LanguageAndRegion />
-            <HelpBar />
+            <MenuButton />
           </div>
         </div>
   

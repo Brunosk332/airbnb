@@ -1,23 +1,23 @@
 export function SearchBar() {
     return (
       <div className="flex items-center border rounded-full shadow-sm hover:shadow-md transition w-fit mx-auto">
-        <div className="flex flex-col px-6 py-3 cursor-pointer hover:bg-gray-100 rounded-full">
-          <span className="text-xs font-bold">Onde</span>
-          <span className="text-sm text-gray-500">Buscar destinos</span>
+        <div className="flex flex-col px-15 py-4 cursor-pointer hover:bg-gray-100 rounded-full">
+          <span className="text-sm font-bold">Onde</span>
+          <span className="text-base text-gray-500">Buscar destinos</span>
         </div>
   
         <div className="h-8 w-px bg-gray-300"></div>
   
-        <div className="flex flex-col px-6 py-3 cursor-pointer hover:bg-gray-100 rounded-full">
-          <span className="text-xs font-bold">Quando</span>
-          <span className="text-sm text-gray-500">Insira as datas</span>
+        <div className="flex flex-col px-15 py-4 cursor-pointer hover:bg-gray-100 rounded-full">
+          <span className="text-sm font-bold">Quando</span>
+          <span className="text-base text-gray-500">Insira as datas</span>
         </div>
   
         <div className="h-8 w-px bg-gray-300"></div>
   
-        <div className="flex flex-col px-6 py-3 cursor-pointer hover:bg-gray-100 rounded-full">
-          <span className="text-xs font-bold">Quem</span>
-          <span className="text-sm text-gray-500">Hóspedes?</span>
+        <div className="flex flex-col px-15 py-4 cursor-pointer hover:bg-gray-100 rounded-full">
+          <span className="text-sm font-bold">Quem</span>
+          <span className="text-base text-gray-500">Hóspedes?</span>
         </div>
   
         <button className="flex items-center justify-center w-12 h-12 bg-red-500 rounded-full mr-2 hover:bg-red-600 transition">
