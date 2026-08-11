@@ -1,0 +1,51 @@
+export function SearchBar() {
+    return (
+      <div className="flex items-center border rounded-full shadow-sm hover:shadow-md transition w-fit mx-auto">
+        <div className="flex flex-col px-6 py-3 cursor-pointer hover:bg-gray-100 rounded-full">
+          <span className="text-xs font-bold">Onde</span>
+          <span className="text-sm text-gray-500">Buscar destinos</span>
+        </div>
+  
+        <div className="h-8 w-px bg-gray-300"></div>
+  
+        <div className="flex flex-col px-6 py-3 cursor-pointer hover:bg-gray-100 rounded-full">
+          <span className="text-xs font-bold">Quando</span>
+          <span className="text-sm text-gray-500">Insira as datas</span>
+        </div>
+  
+        <div className="h-8 w-px bg-gray-300"></div>
+  
+        <div className="flex flex-col px-6 py-3 cursor-pointer hover:bg-gray-100 rounded-full">
+          <span className="text-xs font-bold">Quem</span>
+          <span className="text-sm text-gray-500">Hóspedes?</span>
+        </div>
+  
+        <button className="flex items-center justify-center w-12 h-12 bg-red-500 rounded-full mr-2 hover:bg-red-600 transition">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-5 h-5 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={3}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    );
+  }
+  export function SearchBarMobile() {
+    return (
+      <div className="flex md:hidden items-center gap-2 border rounded-full shadow-sm px-4 py-3 mx-4">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+        </svg>
+        <span className="font-semibold">Inicie sua busca</span>
+      </div>
+    );
+  }

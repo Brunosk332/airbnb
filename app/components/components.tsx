@@ -8,52 +8,65 @@ interface RoomProps {
   rating: number; // ex: 4.5 (de 0 a 5)
 }
 //LOGO AIRBNB
-export default function Logo() {
+export function Logo() {
   return (
-      <div className="flex items-start m-2" >
+      <div className="flex items-center m-2" >
         <Image src="/img/logo.png" alt="" width={35} height={35} />
-        <h2 className="flex items-center text-2xl font-bold text-orange-600">airbnb</h2>
+        <h2 className="text-xl font-bold text-orange-600 m-1">airbnb</h2>
         </div>
     );
 }
-//NAVIGATION BAR ALL
+//NAVIGATION BAR
 export function NavigationBar() {
   return (
-    <div className="flex flex-row justify-center items-center gap-8 w-full" >
-  <div className="flex items-center justify-center">
+    <div className="flex flex-row  gap-13">
+  <div className="flex flex-row items-center justify-center">
     <Image src="/img/globe.png" alt="" width={35} height={35} />
-    <h2 className="flex items-center text-xl font-bold text-white">Tudo</h2>
+    <h2 className="text-base font-bold text-gray-500 hover:text-gray-200">Tudo</h2>
   </div>
-  <div className="flex items-center justify-center">
+  <div className="flex flex-row items-center justify-center">
     <Image src="/img/house.png" alt="" width={35} height={35} />
-    <h2 className="flex items-center text-xl font-bold text-white">Acomodações</h2>
+    <h2 className="text-base font-bold text-gray-500 hover:text-gray-200">Acomodações</h2>
   </div>
-<div className="flex items-center justify-center">
+<div className="flex flex-row items-center justify-center">
   <Image src="/img/balloon.png" alt="" width={35} height={35} />
-  <h2 className= "flex items-center text-xl font-bold text-white">Experiências</h2>
+  <h2 className="text-base font-bold text-gray-500 hover:text-gray-200">Recomendações</h2>
   </div>
-    <div className="flex items-center justify-center">
+    <div className="flex flex-row items-center justify-center">
       <Image src="/img/cloche.png" alt="" width={35} height={35} />
-      <h2 className= "flex items-center text-xl font-bold text-white">Serviços</h2>
+      <h2 className= "text-base font-bold text-gray-500 hover:text-gray-200">Sobre</h2>
       </div>
   </div >
   );
 }
+export function BecomeAnHost() {
+  return (
+    <div className="hidden lg:flex flex-row items-center justify-center gap-8 w-full">
+      <div className="flex flex-row items-center justify-center">
+        <h2 className="text-base font-bold text-white whitespace-nowrap">
+          Torne-se um anfitrião
+        </h2>
+      </div>
+    </div>
+  );
+}
+export function LanguageAndRegion() {
+  return (
+    <div className="flex flex-row items-center justify-center gap-8 w-full">
+      <div className="flex flex-row items-center justify-center">
+        <Image src="/img/globe.svg" alt="" width={35} height={35} />
+      </div>
+    </div>
+)
+}
 export function HelpBar() {
   return (
-    <div className="flex items-end justify-right items-center gap-8 w-full" >
-    <div className="flex items-center justify-center">
-      <h2 className="flex items-center text-xl font-bold text-white">Torne-se um Anfitrião</h2>
+    <div className="flex flex-row items-center justify-center gap-8 w-full">
+      <div className="flex flex-row items-center justify-center">
+          <Image src="/img/Bars.png" alt="" width={35} height={35} />
+      </div>
     </div>
-    <div className="flex items-center justify-center">
-      <Image src="/img/house.png" alt="" width={35} height={35} />
-    </div>
-  <div className="flex items-center justify-center">
-    <Image src="/img/balloon.png" alt="" width={35} height={35} />
-    <h2 className= "flex items-center text-xl font-bold text-white">Experiências</h2>
-    </div>
-    </div >
-  );
+  )
 }
 export function Room({ title, photo, period, totalPrice, rating }: RoomProps) {
   return (
