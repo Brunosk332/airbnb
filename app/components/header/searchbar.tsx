@@ -1,22 +1,22 @@
 export function SearchBar() {
     return (
       <div className="flex items-center border rounded-full shadow-sm hover:shadow-md transition w-fit mx-auto">
-        <div className="flex flex-col px-15 py-4 cursor-pointer hover:bg-gray-100 rounded-full">
-          <span className="text-sm font-bold">Onde</span>
+        <div className="flex flex-col px-20 py-3 cursor-pointer rounded-full hover:bg-gray-300">
+          <span className="text-sm font-bold text-gray-900">Onde</span>
           <span className="text-base text-gray-500">Buscar destinos</span>
         </div>
   
         <div className="h-8 w-px bg-gray-300"></div>
   
-        <div className="flex flex-col px-15 py-4 cursor-pointer hover:bg-gray-100 rounded-full">
-          <span className="text-sm font-bold">Quando</span>
+        <div className="flex flex-col px-20 py-3 cursor-pointer rounded-full hover:bg-gray-300">
+          <span className="text-sm font-bold text-gray-900">Quando</span>
           <span className="text-base text-gray-500">Insira as datas</span>
         </div>
   
         <div className="h-8 w-px bg-gray-300"></div>
   
-        <div className="flex flex-col px-15 py-4 cursor-pointer hover:bg-gray-100 rounded-full">
-          <span className="text-sm font-bold">Quem</span>
+        <div className="flex flex-col px-20 py-3 cursor-pointer rounded-full hover:bg-gray-300">
+          <span className="text-sm font-bold text-gray-900">Quem</span>
           <span className="text-base text-gray-500">Hóspedes?</span>
         </div>
   

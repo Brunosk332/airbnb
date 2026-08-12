@@ -19,22 +19,22 @@ export function Logo() {
 //NAVIGATION BAR
 export function NavigationBar() {
   return (
-    <div className="flex flex-row  gap-13">
+    <div className="flex flex-row  gap-10">
   <div className="flex flex-row items-center justify-center">
     <Image src="/img/globe.png" alt="" width={35} height={35} />
-    <h2 className="text-base font-bold text-gray-500 hover:text-gray-200">Tudo</h2>
+    <h2 className="text-base font-bold text-gray-500 hover:text-black">Tudo</h2>
   </div>
   <div className="flex flex-row items-center justify-center">
     <Image src="/img/house.png" alt="" width={35} height={35} />
-    <h2 className="text-base font-bold text-gray-500 hover:text-gray-200">Acomodações</h2>
+    <h2 className="text-base font-bold text-gray-500 hover:text-black">Acomodações</h2>
   </div>
 <div className="flex flex-row items-center justify-center">
   <Image src="/img/balloon.png" alt="" width={35} height={35} />
-  <h2 className="text-base font-bold text-gray-500 hover:text-gray-200">Recomendações</h2>
+  <h2 className="text-base font-bold text-gray-500 hover:text-black">Experiências</h2>
   </div>
     <div className="flex flex-row items-center justify-center">
       <Image src="/img/cloche.png" alt="" width={35} height={35} />
-      <h2 className= "text-base font-bold text-gray-500 hover:text-gray-200">Sobre</h2>
+      <h2 className= "text-base font-bold text-gray-500 hover:text-black">Serviços</h2>
       </div>
   </div >
   );
@@ -43,7 +43,7 @@ export function BecomeAnHost() {
   return (
     <div className="hidden lg:flex flex-row items-center justify-center px-8 w-full">
       <div className="flex flex-row items-center justify-center">
-        <h2 className="text-base font-bold text-white whitespace-nowrap">
+        <h2 className="text-base font-bold text-gray-900 whitespace-nowrap">
           Torne-se um anfitrião
         </h2>
       </div>
@@ -52,10 +52,10 @@ export function BecomeAnHost() {
 }
 export function LanguageAndRegion() {
   return (
-    <button className="flex items-center justify-center w-10 h-10 rounded-full bg-black hover:bg-gray-700 transition cursor-pointer">
+    <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition cursor-pointer">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="w-10 h-5 text-gray-300"
+      className="w-10 h-5 text-gray-900"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -70,10 +70,10 @@ export function LanguageAndRegion() {
 }
 export function MenuButton() {
   return (
-    <button className="flex items-center justify-center w-10 h-10 rounded-full bg-black hover:bg-gray-700 transition cursor-pointer">
+    <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition cursor-pointer">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="w-5 h-5 text-gray-300"
+        className="w-5 h-5 text-gray-900"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
