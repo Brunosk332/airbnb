@@ -12,14 +12,14 @@ export function Logo() {
   return (
       <div className="flex items-center m-2" >
         <Image src="/img/logo.png" alt="" width={35} height={35} />
-        <h2 className="hidden md:flex text-xl font-bold text-orange-600 m-1">airbnb</h2>
+        <h2 className="hidden min-[900px]:block text-xl font-bold text-orange-600 m-1">airbnb</h2>
         </div>
     );
 }
 //NAVIGATION BAR
 export function NavigationBar() {
   return (
-    <div className="flex flex-row  gap-10">
+    <div className="flex flex-row  gap-18">
   <div className="flex flex-row items-center justify-center">
     <Image src="/img/globe.png" alt="" width={35} height={35} />
     <h2 className="text-base font-bold text-gray-500 hover:text-black">Tudo</h2>
@@ -67,24 +67,6 @@ export function LanguageAndRegion() {
     </svg>
   </button>
 )
-}
-export function MenuButton() {
-  return (
-    <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition cursor-pointer">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-5 h-5 text-gray-900"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" d="M4 6h16"></path>
-        <path strokeLinecap="round" d="M4 12h16"></path>
-        <path strokeLinecap="round" d="M4 18h16"></path>
-      </svg>
-    </button>
-  );
 }
 export function Room({ title, photo, period, totalPrice, rating }: RoomProps) {
   return (
