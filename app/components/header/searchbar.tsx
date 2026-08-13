@@ -1,6 +1,6 @@
 export function SearchBar() {
     return (
-      <div className="flex items-center border rounded-full shadow-sm hover:shadow-md transition w-fit mx-auto">
+      <div className="flex items-center border rounded-full shadow-md hover:shadow-md transition w-fit mx-auto">
         <div className="flex flex-col px-20 py-3 cursor-pointer rounded-full hover:bg-gray-300">
           <span className="text-sm font-bold text-gray-900">Onde</span>
           <span className="text-base text-gray-500">Buscar destinos</span>
