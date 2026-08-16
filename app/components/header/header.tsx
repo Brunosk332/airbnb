@@ -1,7 +1,7 @@
 import { Logo } from "../components"
 import { NavigationBar } from "../components"
 import { BecomeAnHost } from "../components"
-import { LanguageAndRegion } from "../components"
+import { LanguageMenu } from "./languageMenu"
 import { MenuButton } from "./menuFunctions"
 import { SearchBar } from "./searchbar"
 
@@ -21,7 +21,7 @@ export default function Header() {
           <div className="hidden xl:block">
             <BecomeAnHost />
           </div>
-          <LanguageAndRegion />
+          <LanguageMenu />
           <MenuButton />
         </div>
       </div>
