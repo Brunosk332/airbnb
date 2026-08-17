@@ -39,35 +39,6 @@ export function NavigationBar() {
   </div >
   );
 }
-export function BecomeAnHost() {
-  return (
-    <div className="hidden lg:flex flex-row items-center justify-center px-8 w-full">
-      <div className="flex flex-row items-center justify-center">
-        <h2 className="text-base font-bold text-gray-900 whitespace-nowrap">
-          Torne-se um anfitrião
-        </h2>
-      </div>
-    </div>
-  );
-}
-export function LanguageAndRegion() {
-  return (
-    <button className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 hover:bg-gray-300 transition cursor-pointer">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-10 h-5 text-gray-900"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={1.8}
-    >
-      <circle cx="12" cy="12" r="9"></circle>
-      <path d="M3 12h18"></path>
-      <path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"></path>
-    </svg>
-  </button>
-)
-}
 export function Room({ title, photo, period, totalPrice, rating }: RoomProps) {
   return (
     <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">

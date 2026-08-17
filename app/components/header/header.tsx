@@ -1,6 +1,6 @@
 import { Logo } from "../components"
 import { NavigationBar } from "../components"
-import { BecomeAnHost } from "../components"
+import { BecomeAnHost } from "./becomeAnHost"
 import { LanguageMenu } from "./languageMenu"
 import { MenuButton } from "./menuFunctions"
 import { SearchBar } from "./searchbar"
