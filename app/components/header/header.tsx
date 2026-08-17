@@ -1,5 +1,5 @@
-import { Logo } from "../components"
-import { NavigationBar } from "../components"
+import { Logo } from "./logo"
+import { NavigationBar } from "./navigationBar"
 import { BecomeAnHost } from "./becomeAnHost"
 import { LanguageMenu } from "./languageMenu"
 import { MenuButton } from "./menuFunctions"

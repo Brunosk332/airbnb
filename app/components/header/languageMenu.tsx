@@ -37,24 +37,21 @@ export function LanguageMenu() {
 
             {MenuOpen && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center overflow-y-auto">
-
-                    {/* CARD ÚNICO - tudo dentro dele, na ordem certa */}
+                    {/* div menu */}
                     <div className="w-full max-w-4xl mt-10 mb-10 p-8 bg-white rounded-2xl text-sm text-gray-900">
-
-                        {/* 1. Botão X */}
+                        {/* botao X */}
                         <button onClick={() => setLanguageMenuOpen(false)} className="mb-6">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
-
-                        {/* 2. Abas */}
+                        {/*  mudar aba de regiao e idioma */}
                         <div className="border-b border-gray-200 flex gap-8 mb-6">
                             <button
                                 onClick={() => setActiveTab("idioma")}
                                 className={`pb-3 font-semibold ${activeTab === "idioma"
-                                        ? "text-gray-900 border-b-2 border-gray-900"
-                                        : "text-gray-500"
+                                    ? "text-gray-900 border-b-2 border-gray-900"
+                                    : "text-gray-500"
                                     }`}
                             >
                                 Idioma e região
@@ -62,17 +59,16 @@ export function LanguageMenu() {
                             <button
                                 onClick={() => setActiveTab("moeda")}
                                 className={`pb-3 font-semibold ${activeTab === "moeda"
-                                        ? "text-gray-900 border-b-2 border-gray-900"
-                                        : "text-gray-500"
+                                    ? "text-gray-900 border-b-2 border-gray-900"
+                                    : "text-gray-500"
                                     }`}
                             >
                                 Moeda
                             </button>
                         </div>
-
                         {activeTab === "idioma" && (
                             <>
-                                {/* 3. Card Tradução */}
+                                {/* tradução */}
                                 <div className="bg-gray-100 rounded-xl p-4 flex justify-between items-center mb-8">
                                     <div>
                                         <span className="font-semibold">Tradução</span>
@@ -82,8 +78,7 @@ export function LanguageMenu() {
                                         <div className="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5"></div>
                                     </div>
                                 </div>
-
-                                {/* 4. Sugeridos */}
+                                {/* idiomas sugeridos */}
                                 <h3 className="text-2xl font-semibold mb-4">Idiomas e regiões sugeridos</h3>
                                 <div className="grid grid-cols-2 gap-6 mb-8">
                                     <button className="text-left">
@@ -95,8 +90,7 @@ export function LanguageMenu() {
                                         <span className="text-gray-500 text-sm">United Kingdom</span>
                                     </button>
                                 </div>
-
-                                {/* 5. Título + grid completo */}
+                                {/* escolha um idioma e regiao */}
                                 <h3 className="text-2xl font-semibold mb-4">Escolha um idioma e uma região</h3>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                                     <button className="cursor-pointer hover:bg-gray-100 rounded-lg p-3 transition text-left border border-gray-900">
@@ -482,13 +476,11 @@ export function LanguageMenu() {
                                 </div>
                             </>
                         )}
-
                         {activeTab === "moeda" && (
                             <div>
                                 {/* conteúdo de moeda entra aqui depois */}
                             </div>
                         )}
-
                     </div>
                 </div>
             )}
