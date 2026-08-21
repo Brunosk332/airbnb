@@ -2,12 +2,13 @@ import { Logo } from "../components/header/logo";
 import { LanguageMenu } from "../components/header/languageMenu";
 import { MenuButton } from "../components/header/menuFunctions";
 import { BecomeAnHost } from "../components/header/becomeAnHost";
+import { Footer } from "../components/footer/footer";
 import Image from "next/image";
 import Link from "next/link";
 export default function Page() {
   return (
     <>
-      <header className="flex flex-col gap-4 px-4 md:px-8 py-4 bg-neutral-100 shadow-md">
+      <header className="flex flex-col gap-4 px-4 md:px-8 py-4 bg-white sm:bg-neutral-100 shadow-md">
         <div className="hidden sm:grid max-w-[1852px] mx-auto grid-cols-2 items-center w-full">
           <div className="flex justify-start">
             <Logo />
@@ -23,15 +24,15 @@ export default function Page() {
       </header>
       {/* body */}
 
-      <div className="relative w-full h-screen">
+      <div className="relative w-full h-screen bg-white">
 
-        <Image src="/img/mosaic.png" alt="" fill className="object-cover " />
+        <Image src="/img/mosaic.png" alt="" fill className="object-cover hidden sm:block" />
 
         {/* gradiente preto */}
-        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 pointer-events-none hidden sm:block" />
 
         <div className="absolute inset-0 flex items-start justify-center sm:top-10 sm-justify-center sm:items-center sm:bottom-10">
-          <div className="w-full max-w-lg px-4 py-18 bg-white shadow-xl rounded-4xl">
+          <div className="w-full max-w-lg px-4 py-18 bg-white sm:shadow-xl sm:rounded-4xl">
             <div className="space-y-1 text-center">
 
               <Image src="/img/logo.png" alt="" width={40} height={40} className="position-relative top-px inline-block" />
@@ -65,20 +66,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-neutral-200 flex justify-around items-center py-8 sm:hidden z-50">
-        <button className="flex flex-col items-center text-xs text-neutral-900">
-          <span></span>
-          Explorar
-        </button>
-        <button className="flex flex-col items-center text-xs text-neutral-500">
-          <span></span>
-          Favoritos
-        </button>
-        <button className="flex flex-col items-center text-xs text-neutral-500">
-          <span></span>
-          Login
-        </button>
-      </div>
+      <Footer />
     </>
   )
 }

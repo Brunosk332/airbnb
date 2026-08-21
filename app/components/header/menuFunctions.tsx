@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect } from "react"; // ← tudo importado junto, no topo
 import Image from "next/image";
+import Link from "next/link";
 export function MenuButton() {
   const [MenuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ export function MenuButton() {
         </svg>
       </button>
       {MenuOpen && (
-        <div className="bg-white rounded-lg shadow-md absolute top-20 right-8 z10 w-66 p-2 text-sm text-gray-900">
+        <div className="bg-white rounded-lg shadow-md absolute top-20 right-8 z-999 w-66 p-2 text-sm text-gray-900">
           <button className="w-full text-left px-6 py-1.5 hover:bg-gray-100 flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,10 +59,10 @@ export function MenuButton() {
           </button>
           <hr className="mx-4 border-stone-400 my-3" />
           <button className="w-full text-left px-6 py-1.5 hover:bg-gray-100 flex items-center justify-between gap-3">
-            <div className="flex flex-col ">
+            <Link href="/login" className="flex flex-col ">
               <span className="font-semibold  text-stone-900">Torne-se um anfitrião</span>
               <span className="w-full text- text-xs">É fácil começar a receber hóspedes, oferecer serviços ou experiências e ganhar uma renda extra.</span>
-            </div>
+            </Link>
             <Image src="/img/anfitriao.png" alt="" width={50} height={50} className="object-contain shrink-0" />
           </button>
           <hr className="mx-4 border-stone-400 my-3" />
