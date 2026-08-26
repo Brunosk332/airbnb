@@ -2,11 +2,12 @@ import Card from "./card";
 export interface Property {
     id: string;
     imageUrl: string;
+    type: string;
     period: string;
     location: string;
     pricePerNight: number;
     rating: number;
-}
+  }
 interface GridProps {
     properties: Property[];
 }
