@@ -18,3 +18,52 @@ email VARCHAR(150) NOT NULL UNIQUE,
 ALTER TABLE properties
 ADD COLUMN host_id INT UNSIGNED NOT NULL,
 ADD FOREIGN KEY (host_id) REFERENCES users(id);
+
+CREATE TABLE bookings (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  property_id INT UNSIGNED NOT NULL,
+  check_in DATE NOT NULL,
+  check_out DATE NOT NULL,
+  guests INT UNSIGNED NOT NULL DEFAULT 1,
+  total_price DECIMAL(10,2) NOT NULL,
+  status ENUM('pending', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (property_id) REFERENCES properties(id),
+  CHECK (check_out > check_in)
+);
+
+CREATE TABLE reviews (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT UNSIGNED NOT NULL,
+  property_id INT UNSIGNED NOT NULL,
+  booking_id INT UNSIGNED NOT NULL,
+  rating DECIMAL(3,2) NOT NULL CHECK (rating >= 0 AND rating <= 5),
+  comment TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (property_id) REFERENCES properties(id),
+  FOREIGN KEY (booking_id) REFERENCES bookings(id),
+  UNIQUE (booking_id)
+);
+
+ALTER TABLE properties
+ADD COLUMN allows_pets BOOLEAN NOT NULL DEFAULT FALSE,
+ADD COLUMN max_guests INT UNSIGNED NOT NULL DEFAULT 1,
+ADD COLUMN bedrooms INT UNSIGNED NOT NULL DEFAULT 1,
+ADD COLUMN bathrooms INT UNSIGNED NOT NULL DEFAULT 1,
+ADD COLUMN has_wifi BOOLEAN NOT NULL DEFAULT FALSE,
+ADD COLUMN has_parking BOOLEAN NOT NULL DEFAULT FALSE;
+
+ALTER TABLE bookings
+ADD COLUMN bringing_pet BOOLEAN NOT NULL DEFAULT FALSE;
+
+CREATE TABLE images (
+  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  property_id INT UNSIGNED NOT NULL,
+  url VARCHAR(255) NOT NULL,
+  category ENUM('cover', 'bedroom', 'bathroom', 'kitchen', 'living_room', 'exterior', 'other') NOT NULL DEFAULT 'other',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (property_id) REFERENCES properties(id)
+);
