@@ -18,7 +18,7 @@ export default async function PropertyDetails({ params }: { params: Promise<{ id
       {/* Título e ações */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">{property.type}</h1>
-        <div className="flex gap-4 text-sm font-medium underline">
+        <div className="flex gap-4 text-sm font-medium underline text-neutral-600">
           <button>Compartilhar</button>
           <button>Salvar</button>
         </div>
@@ -39,19 +39,19 @@ export default async function PropertyDetails({ params }: { params: Promise<{ id
       <div className="grid grid-cols-3 gap-8 mt-8">
         {/* Coluna esquerda */}
         <div className="col-span-2">
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-semibold text-neutral-600">
             Espaço inteiro: {property.type.toLowerCase()} em {property.location}
           </h2>
           <p className="text-neutral-600 mt-1">
             {property.guests ?? 2} hóspedes · {property.bedrooms ?? 1} quarto{(property.bedrooms ?? 1) > 1 ? "s" : ""} · {property.beds ?? 1} camas · {property.bathrooms ?? 1} banheiro
           </p>
-          <p className="mt-2 flex items-center gap-1">
+          <p className="mt-2 flex items-center gap-1 text-neutral-500">
             ★ {property.rating} · <span className="underline">{property.reviewCount ?? 0} avaliações</span>
           </p>
 
           <hr className="my-6" />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 text-neutral-600">
             <div className="w-12 h-12 rounded-full bg-neutral-200" />
             <div>
               <p className="font-medium">Anfitriã(o): {property.hostName ?? "Anfitrião"}</p>
@@ -61,12 +61,12 @@ export default async function PropertyDetails({ params }: { params: Promise<{ id
 
           <hr className="my-6" />
 
-          <p className="whitespace-pre-line">{property.description}</p>
+          <p className="whitespace-pre-line text-neutral-600">{property.description}</p>
 
           <hr className="my-6" />
 
-          <h3 className="text-lg font-semibold mb-4">O que esse lugar oferece</h3>
-          <div className="grid grid-cols-2 gap-y-3">
+          <h3 className="text-lg font-semibold mb-4 text-neutral-600">O que esse lugar oferece</h3>
+          <div className="grid grid-cols-2 gap-y-3 ">
             {(property.amenities ?? []).map((item) => (
               <div key={item} className="flex items-center gap-3">
                 <span>•</span>
@@ -79,23 +79,23 @@ export default async function PropertyDetails({ params }: { params: Promise<{ id
         {/* Coluna direita - card de reserva */}
         <div>
           <div className="border rounded-xl shadow-lg p-6 sticky top-8">
-            <p className="text-lg">
+            <p className="text-lg text-neutral-600">
               Total: <span className="font-semibold">R$ {property.pricePerNight}</span>
             </p>
             <div className="border rounded-lg mt-4">
               <div className="grid grid-cols-2 divide-x">
                 <div className="p-3">
-                  <p className="text-xs font-semibold">CHECK-IN</p>
-                  <p className="text-sm">Selecionar data</p>
+                  <p className="text-xs font-semibold text-neutral-600">CHECK-IN</p>
+                  <p className="text-sm text-neutral-500">Selecionar data</p>
                 </div>
                 <div className="p-3">
-                  <p className="text-xs font-semibold">CHECKOUT</p>
-                  <p className="text-sm">Selecionar data</p>
+                  <p className="text-xs font-semibold text-neutral-600">CHECKOUT</p>
+                  <p className="text-sm text-neutral-500">Selecionar data</p>
                 </div>
               </div>
               <div className="border-t p-3">
-                <p className="text-xs font-semibold">HÓSPEDES</p>
-                <p className="text-sm">{property.guests ?? 1} hóspede(s)</p>
+                <p className="text-xs font-semibold text-neutral-600">HÓSPEDES</p>
+                <p className="text-sm text-neutral-500">{property.guests ?? 1} hóspede(s)</p>
               </div>
             </div>
             <button className="w-full bg-pink-600 text-white rounded-lg py-3 mt-4 font-semibold hover:bg-pink-700 transition-colors">

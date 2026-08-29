@@ -1,17 +1,6 @@
-import { usePathname } from "next/navigation";
-
-
-
-
-
 export function SearchBar() {
-  const pathname = usePathname();
-  const isPropertyPage = pathname.startsWith("/property");
     return (
       <div className="flex items-center border rounded-full shadow-md hover:shadow-md transition w-fit mx-auto">
-        {isPropertyPage ? (
-       null ) : (
-          <>
         <div className="flex flex-col px-20 py-3 cursor-pointer rounded-full hover:bg-gray-300">
           <span className="text-sm font-bold text-gray-900">Onde</span>
           <span className="text-base text-gray-500">Buscar destinos</span>
@@ -46,8 +35,6 @@ export function SearchBar() {
     ></path>
   </svg>
 </button>
-</>
-        )}
       </div>
     );
   }
