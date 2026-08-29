@@ -3,6 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
+import Header from "../components/header/header";
+import { Logo } from "../components/header/logo";
+import { MenuButton } from "../components/header/menuFunctions";
+import { BecomeAnHost } from "../components/header/becomeAnHost";
 
 type Tab = "sobre" | "viagens" | "conexoes";
 
@@ -19,6 +23,20 @@ export default function ProfilePage() {
   ];
 
   return (
+    <>
+          <header className="flex flex-col gap-4 px-4 md:px-8 py-4 bg-white sm:bg-neutral-100 shadow-md">
+        <div className="hidden sm:grid max-w-[1852px] mx-auto grid-cols-2 items-center w-full">
+          <div className="flex justify-start">
+            <Logo />
+          </div>
+          <div className="flex justify-end items-center gap-6">
+            <div>
+              <BecomeAnHost />
+            </div>
+            <MenuButton />
+          </div>
+        </div>
+      </header>
     <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-5xl mx-auto px-4 py-10 gap-8">
       {/* Sidebar */}
       <div>
@@ -52,6 +70,7 @@ export default function ProfilePage() {
         {activeTab === "conexoes" && <Conexoes />}
       </div>
     </div>
+    </>
   );
 }
 

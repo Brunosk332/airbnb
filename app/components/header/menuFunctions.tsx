@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react"; // ← tudo importado junto, no topo
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "../../context/AuthContext"
 export function MenuButton() {
   const [MenuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -20,11 +21,25 @@ export function MenuButton() {
     };
   }, []);
 
-  // 
-  // 
-  //  
+  const { user } = useAuth();
+  const initial = user?.name?.charAt(0).toUpperCase();
+
   return (
     <div ref={menuRef} className="relative flex items-center">
+          <div className="flex items-center gap-3 pr-4">
+      {user && (
+        <Link
+          href="/profile"
+          className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-semibold text-neutral-700"
+        >
+          {initial}
+        </Link>
+      )}
+      <button className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+      
+      </button>
+    </div>
+      {/*botao menu */}
       <button onClick={() => setMenuOpen(!MenuOpen)} className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 
   hover:bg-gray-300 transition cursor-pointer">
         <svg
