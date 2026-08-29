@@ -82,7 +82,9 @@ gap-3">
           <button className="w-full text-left px-6 py-1.5 hover:bg-gray-100 flex items-center 
 ap-3">
             <div className="flex flex-col">
+              <Link className="font-semibold text-stone-700" href="/login">
               <span className="font-semibold text-stone-700">Entrar ou cadastrar-se</span>
+              </Link>
             </div>
           </button>
 
