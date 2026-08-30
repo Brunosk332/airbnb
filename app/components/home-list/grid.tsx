@@ -3,6 +3,7 @@ export interface Property {
     id: string;
     imageUrl: string;
     images?: string[];
+    cover_image?: string;
     type: string;
     period: string;
     location: string;

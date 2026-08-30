@@ -8,9 +8,10 @@ export default function Card({ property }: { property: Property }) {
         <div className="flex flex-col cursor-pointer group">
             <div className="relative w-full aspect-square rounded-xl overflow-hidden">
                 <Image
-                    src={property.imageUrl}
+                    src={property.cover_image ?? "/img/placeholder.jpg"}
                     alt=""
                     fill
+                    unoptimized
                     className="w-full h-full group-hover:scale-105 transition-transform duration-300 object-cover object-center"
                 />
             </div>
