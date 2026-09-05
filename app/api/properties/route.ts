@@ -11,6 +11,6 @@ export async function GET() {
     return NextResponse.json(result.rows);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Erro ao buscar propriedades" }, { status: 500 });
+    return NextResponse.json({ error: "Erro ao buscar propriedades properties" }, { status: 500 });
   }
 }
