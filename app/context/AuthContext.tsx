@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 interface User {
   name: string;
   email: string;
@@ -8,11 +14,15 @@ interface User {
 type AuthResult = {
   success: boolean;
   message?: string;
-}
+};
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<AuthResult>;
-  register: (name: string, email: string, password: string) => Promise<AuthResult>;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<AuthResult>;
   logout: () => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,9 +35,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 //};
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-// cria uma conta para o usuario
+  useEffect(() => {
+    async function fetchUser() {
+      const res = await fetch("/api/me");
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
+      } else {
+        setUser(null);
+      }
+    }
+    fetchUser();
+  }, []);
+
+  // cria uma conta para o usuario
   async function register(
-    name: string, email: string, password: string,
+    name: string,
+    email: string,
+    password: string,
   ): Promise<AuthResult> {
     const res = await fetch("/api/register", {
       method: "POST",
@@ -38,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const data = await res.json();
 
     if (!res.ok) {
-      return {success: false, message: data.error}
+      return { success: false, message: data.error };
     }
 
     setUser({
@@ -46,9 +71,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: data.email,
       isHost: data.is_host,
     });
-    return {success: true}
+    return { success: true };
   }
-// entra na conta do usuario
+  // entra na conta do usuario
   async function login(email: string, password: string): Promise<AuthResult> {
     const res = await fetch("/api/login", {
       method: "POST",
@@ -57,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     if (!res.ok) {
-      return {success: false, message: "E-mail ou senha incorretos"}
+      return { success: false, message: "E-mail ou senha incorretos" };
     }
     const userData = await res.json();
     setUser({
@@ -65,9 +90,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: userData.email,
       isHost: userData.is_host,
     });
-    return {success: true}
+    return { success: true };
   }
-// sai da conta do usuario
+  // sai da conta do usuario
   function logout() {
     setUser(null);
   }
