@@ -5,10 +5,14 @@ interface User {
   email: string;
   isHost: boolean;
 }
+type AuthResult = {
+  success: boolean;
+  message?: string;
+}
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<AuthResult>;
+  register: (name: string, email: string, password: string) => Promise<AuthResult>;
   logout: () => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,30 +25,31 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 //};
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-
+// cria uma conta para o usuario
   async function register(
-    name: string,
-    email: string,
-    password: string,
-  ): Promise<boolean> {
+    name: string, email: string, password: string,
+  ): Promise<AuthResult> {
     const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password }),
     });
 
-    if (!res.ok) return false;
+    const data = await res.json();
 
-    const userData = await res.json();
+    if (!res.ok) {
+      return {success: false, message: data.error}
+    }
+
     setUser({
-      name: userData.name,
-      email: userData.email,
-      isHost: userData.is_host,
+      name: data.name,
+      email: data.email,
+      isHost: data.is_host,
     });
-    return true;
+    return {success: true}
   }
-
-  async function login(email: string, password: string): Promise<boolean> {
+// entra na conta do usuario
+  async function login(email: string, password: string): Promise<AuthResult> {
     const res = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     if (!res.ok) {
-      return false;
+      return {success: false, message: "E-mail ou senha incorretos"}
     }
     const userData = await res.json();
     setUser({
@@ -60,9 +65,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: userData.email,
       isHost: userData.is_host,
     });
-    return true;
+    return {success: true}
   }
-
+// sai da conta do usuario
   function logout() {
     setUser(null);
   }
