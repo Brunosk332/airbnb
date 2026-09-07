@@ -27,20 +27,19 @@ interface AuthContextType {
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-//const FAKE_USER = {
-//    name: "Bruno",
-//    email: "bruno@gmail.com",
-//    password: "123456",
-//    isHost: true,
-//};
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  //verifica se o usuário está logado
   useEffect(() => {
     async function fetchUser() {
       const res = await fetch("/api/me");
       if (res.ok) {
         const data = await res.json();
-        setUser(data);
+        setUser({
+          name: data.name,
+          email: data.email,
+          isHost: data.is_host,
+        });
       } else {
         setUser(null);
       }
@@ -65,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!res.ok) {
       return { success: false, message: data.error };
     }
-
+    
     setUser({
       name: data.name,
       email: data.email,
@@ -93,9 +92,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { success: true };
   }
   // sai da conta do usuario
-  function logout() {
-    setUser(null);
-  }
+  async function logout() {
+      const res = await fetch("/api/logout", {
+ method: "POST",
+      })
+      if (!res.ok) {
+        console.error("Erro ao deletar sessão");
+      }  
+      setUser(null);
+    }
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout }}>
