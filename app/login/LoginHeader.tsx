@@ -1,6 +1,6 @@
 import { Logo } from "../components/header/logo";
 import { LanguageMenu } from "../components/header/languageMenu";
-import { MenuButton } from "../components/header/menuFunctions";
+import { MenuButton } from "../components/header/menu";
 import { BecomeAnHost } from "../components/header/becomeAnHost";
 
 export default function LoginHeader() {

@@ -3,7 +3,7 @@ import { Logo } from "./logo"
 import { NavigationBar } from "./navigationBar"
 import { BecomeAnHost } from "./becomeAnHost"
 import { LanguageMenu } from "./languageMenu"
-import { MenuButton } from "./menuFunctions"
+import { MenuButton } from "./menu"
 import { SearchBar } from "./searchbar"
 import { usePathname } from "next/navigation";
 

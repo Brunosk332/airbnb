@@ -6,6 +6,11 @@ export async function POST(request: Request) {
 const cookieStore = await cookies();
 const sessionToken = cookieStore.get("sessionToken")?.value;
     try {
+        const verifySession = await pool.query("SELECT * FROM airbnb.sessions WHERE (session_token) = $1", [sessionToken]);
+        
+        if (verifySession.rowCount === 0) {
+            return NextResponse.json({ error: "Sessão não encontrada" }, { status: 404 });
+        }
         const session = await pool.query("DELETE FROM airbnb.sessions WHERE (session_token) = $1", [sessionToken]);
 
         if (session.rowCount === 0) {

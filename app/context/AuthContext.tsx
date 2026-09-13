@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!res.ok) {
       return { success: false, message: data.error };
     }
-    
+
     setUser({
       name: data.name,
       email: data.email,
