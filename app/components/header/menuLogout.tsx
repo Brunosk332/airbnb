@@ -9,7 +9,7 @@ export function MenuButton() {
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
  const { logout } = useAuth();
- async function handreLogout() {
+ async function handleLogout() {
     await logout();
     router.push("/");
  }
@@ -100,7 +100,7 @@ gap-3">
             </div>
           </button>
           <hr className="mx-4 border-stone-400 my-3" />
-          <button onClick={handreLogout} className="w-full text-left px-6 py-1.5 hover:bg-gray-100 flex items-center 
+          <button onClick={handleLogout} className="w-full text-left px-6 py-1.5 hover:bg-gray-100 flex items-center 
 ap-3">
             <div className="flex flex-col">
               <span className="font-semibold text-stone-700">Desconectar-se</span>

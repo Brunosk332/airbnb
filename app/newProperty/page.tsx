@@ -1,6 +1,6 @@
 import  SimpleHeader from "../components/header/simpleHeader";
-import ProfileBody from "./ProfileBody";
-import ProfileBodyModel from "./ProfileBodyModel";
+import ProfileBody from "./PropertyBody";
+import ProfileBodyModel from "./PropertyBodyModel";
 export default function NewProperty() {
   return (
 

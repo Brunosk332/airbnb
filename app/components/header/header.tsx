@@ -6,7 +6,7 @@ import { LanguageMenu } from "./languageMenu"
 import { MenuButton } from "./menu"
 import { SearchBar } from "./searchbar"
 import { usePathname } from "next/navigation";
-
+import ProfileButton from "./profile";
 export default function Header() {
   const pathname = usePathname();
   const isPropertyPage = pathname.startsWith("/property");
@@ -26,6 +26,11 @@ export default function Header() {
      <BecomeAnHost />
    </div>
    <LanguageMenu />
+   <ProfileButton />
+   <p>teste</p>
+   <p>teste</p>
+   <p>teste</p>
+   teste profile button 1231231231231231231312312
    <MenuButton />
  </div>
 </div>
@@ -52,6 +57,7 @@ export default function Header() {
             <BecomeAnHost />
           </div>
           <LanguageMenu />
+          <ProfileButton />
           <MenuButton />
         </div>
       </div>

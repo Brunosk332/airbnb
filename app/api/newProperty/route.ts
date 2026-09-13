@@ -42,10 +42,7 @@ export async function POST(request: NextRequest) {
     bedrooms <= 0 ||
     !bathrooms ||
     bathrooms <= 0 ||
-    !allows_pets?.trim() ||
-    !has_wifi?.trim() ||
-    !has_parking?.trim() ||
-    !description?.trim()
+ !description?.trim()
   ) {
     return NextResponse.json(
       {
@@ -54,10 +51,13 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+  console.log("teste teste teste")
   try {
+    console.log("teste123012738917289317892")
     const verifyUser = await pool.query(
-      `SELECT * FROM sessions WHERE session_token = $1`,
+      `SELECT * FROM airbnb.sessions WHERE session_token = $1`,
       [sessionToken],
+      
     );
     if (verifyUser.rows.length === 0) {
       return NextResponse.json(
@@ -65,8 +65,9 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+    console.log("teste2")
     const verifyUserHost = await pool.query(
-      `SELECT is_host FROM users WHERE id = $1`,
+      `SELECT is_host FROM airbnb.users WHERE id = $1`,
       [verifyUser.rows[0].user_id],
     );
     if (verifyUserHost.rows[0].is_host === false) {
@@ -75,8 +76,9 @@ export async function POST(request: NextRequest) {
         { status: 401 },
       );
     }
+    console.log("teste3")
     const newProperty = await pool.query(
-      `INSERT INTO properties (host_id,type, location, price_per_night, max_guests, bedrooms, bathrooms, allows_pets, has_wifi, has_parking, description)
+      `INSERT INTO airbnb.properties (host_id,type, location, price_per_night, max_guests, bedrooms, bathrooms, allows_pets, has_wifi, has_parking, description)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
     RETURNING *`,
       [

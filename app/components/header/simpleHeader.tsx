@@ -1,7 +1,7 @@
 import { Logo } from "../header/logo";
 import { MenuButton } from "./menu";
 import { BecomeAnHost } from "../header/becomeAnHost";
-
+import ProfileButton from "../header/profile";
 export default function SimpleHeader() {
   return (
     <header className="flex flex-col gap-4 px-4 md:px-8 py-4 bg-white sm:bg-neutral-100">
@@ -13,6 +13,7 @@ export default function SimpleHeader() {
           <div>
             <BecomeAnHost />
           </div>
+          <ProfileButton />
           <MenuButton />
         </div>
       </div>

@@ -1,6 +1,42 @@
+"use client";
 import Image from "next/image";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 export default function ProfileBody() {
+  const [propertyType, setPropertyType] = useState("");
+  const [location, setLocation] = useState("");
+  const [pricePerNight, setPricePerNight] = useState("");
+  const [maxGuests, setMaxGuests] = useState("");
+  const [bedrooms, setBedrooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
+  const [allowsPets, setAllowsPets] = useState("");
+  const [hasWifi, setHasWifi] = useState("");
+  const [hasParking, setHasParking] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { newProperty } = useAuth();
+  async function handlePropertySubmit(e: React.SyntheticEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const result = await newProperty(
+      propertyType,
+      location,
+      pricePerNight,
+      maxGuests,
+      bedrooms,
+      bathrooms,
+      allowsPets,
+      hasWifi,
+      hasParking,
+      description,
+    );
+    if (result.success) {
+      router.push("/sucess");
+    } else {
+      setError(result.message || "não foi possível criar a propriedade");
+    }
+  };
   return (
     <div className="text-neutral-600">
       <div className="flex flex-col items-center text-center max-w-7xl mx-auto border-4 border-neutral-600 shadow-sm">
@@ -18,7 +54,7 @@ export default function ProfileBody() {
       </div>
 
       <div className="max-w-3xl mx-auto mt-12 px-4">
-        <form action="#" method="POST" className="flex flex-col gap-8">
+        <form action="#" method="POST" className="flex flex-col gap-8" onSubmit={handlePropertySubmit}>
           {/* TYPE */}
           <div>
             <label htmlFor="type" className="text-xl font-bold">
@@ -29,6 +65,8 @@ export default function ProfileBody() {
               name="type"
               id="type"
               defaultValue=""
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value)}
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
             >
               <option value="" disabled>
@@ -51,13 +89,14 @@ export default function ProfileBody() {
             <label htmlFor="location" className="text-xl font-bold">
               Localização
             </label>
-
             <input
               type="text"
               name="location"
               id="location"
               placeholder="Ex: Belo Horizonte, MG"
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
             />
           </div>
 
@@ -75,6 +114,8 @@ export default function ProfileBody() {
               step="0.01"
               placeholder="Ex: 250.00"
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
+              value={pricePerNight}
+              onChange={(e) => setPricePerNight(e.target.value)}
             />
           </div>
 
@@ -91,6 +132,8 @@ export default function ProfileBody() {
               min="1"
               placeholder="Ex: 4"
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
+              value={maxGuests}
+              onChange={(e) => setMaxGuests(e.target.value)}
             />
           </div>
 
@@ -107,6 +150,8 @@ export default function ProfileBody() {
               min="0"
               placeholder="Ex: 2"
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
+              value={bedrooms}
+              onChange={(e) => setBedrooms(e.target.value)}
             />
           </div>
 
@@ -123,6 +168,8 @@ export default function ProfileBody() {
               min="0"
               placeholder="Ex: 2"
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
+              value={bathrooms}
+              onChange={(e) => setBathrooms(e.target.value)}
             />
           </div>
 
@@ -132,7 +179,7 @@ export default function ProfileBody() {
 
             <div className="flex gap-6 mt-3">
               <label className="flex items-center gap-2">
-                <input type="radio" name="allows_pets" value="true" />
+                <input type="radio" name="allows_pets" value="true" onChange={(e) => setAllowsPets(e.target.value)} />
                 Sim
               </label>
 
@@ -142,6 +189,7 @@ export default function ProfileBody() {
                   name="allows_pets"
                   value="false"
                   defaultChecked
+                  onChange={(e) => setAllowsPets(e.target.value)}
                 />
                 Não
               </label>
@@ -154,7 +202,7 @@ export default function ProfileBody() {
 
             <div className="flex gap-6 mt-3">
               <label className="flex items-center gap-2">
-                <input type="radio" name="has_wifi" value="true" />
+                <input type="radio" name="has_wifi" value="true" onChange={(e) => setHasWifi(e.target.value)} />
                 Sim
               </label>
 
@@ -164,6 +212,7 @@ export default function ProfileBody() {
                   name="has_wifi"
                   value="false"
                   defaultChecked
+                  onChange={(e) => setHasWifi(e.target.value)}
                 />
                 Não
               </label>
@@ -176,7 +225,7 @@ export default function ProfileBody() {
 
             <div className="flex gap-6 mt-3">
               <label className="flex items-center gap-2">
-                <input type="radio" name="has_parking" value="true" />
+                <input type="radio" name="has_parking" value="true" onChange={(e) => setHasParking(e.target.value)} />
                 Sim
               </label>
 
@@ -186,6 +235,7 @@ export default function ProfileBody() {
                   name="has_parking"
                   value="false"
                   defaultChecked
+                  onChange={(e) => setHasParking(e.target.value)}
                 />
                 Não
               </label>
@@ -204,6 +254,8 @@ export default function ProfileBody() {
               rows={6}
               placeholder="Descreva sua propriedade..."
               className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full resize-none"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
