@@ -1,9 +1,8 @@
+"use client"
 import { useAuth } from "../../context/AuthContext";
 import Link from "next/link";
 export default function ProfileButton() {
-  console.log("profile buttom")
   const { user } = useAuth();
-  console.log("banano:", user)
   const initial = user?.name?.charAt(0).toUpperCase();
   return (
 

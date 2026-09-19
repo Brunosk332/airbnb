@@ -1,12 +1,11 @@
 import  SimpleHeader from "../components/header/simpleHeader";
-import ProfileBody from "./PropertyBody";
-import ProfileBodyModel from "./PropertyBodyModel";
+import PropertyBody from "./PropertyBody";
 export default function NewProperty() {
   return (
 
     <div>
       <SimpleHeader />
-<ProfileBodyModel />
+<PropertyBody />
     </div>
   );
 }

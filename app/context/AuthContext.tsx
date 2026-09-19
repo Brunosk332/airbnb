@@ -24,18 +24,7 @@ interface AuthContextType {
     password: string,
   ) => Promise<AuthResult>;
   logout: () => void;
-  newProperty: (
-    propertyType: string,
-    location: string,
-    pricePerNight: string,
-    maxGuests: string,
-    bedrooms: string,
-    bathrooms: string,
-    allowsPets: string,
-    hasWifi: string,
-    hasParking: string,
-    description: string,
-  ) => Promise<AuthResult>;
+  newProperty: (formData: FormData) => Promise<AuthResult>;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -59,43 +48,56 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     fetchUser();
   }, []);
 
-  async function newProperty(
-    propertyType: string,
-    location: string,
-    pricePerNight: string,
-    maxGuests: string,
-    bedrooms: string,
-    bathrooms: string,
-    allowsPets: string,
-    hasWifi: string,
-    hasParking: string,
-    description: string,
-  ) : Promise<AuthResult> {
-    const res = await fetch("/api/newProperty", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        type: propertyType,
-        location,
-        price_per_night: Number(pricePerNight),
-        max_guests: Number(maxGuests),
-        bedrooms: Number(bedrooms),
-        bathrooms: Number(bathrooms),
-        allows_pets: allowsPets === "true",
-        has_wifi: hasWifi === "true",
-        has_parking: hasParking === "true",
-        description,
-      }),
-    });
-  
-    const data = await res.json();
-  
-    if (!res.ok) {
-      return { success: false, message: data.error };
-    }
-  
-    return { success: true };
+async function newProperty(formData: FormData): Promise<AuthResult> {
+  const res = await fetch("/api/newProperty", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    return { success: false, message: data.error };
   }
+  return {success: true};
+}
+//  async function newProperty(
+//    propertyType: string,
+//    location: string,
+//    pricePerNight: string,
+//    maxGuests: string,
+//    bedrooms: string,
+//    bathrooms: string,
+//    allowsPets: string,
+//    hasWifi: string,
+//    hasParking: string,
+//    description: string,
+//  ) : Promise<AuthResult> {
+//    const res = await fetch("/api/newProperty", {
+//      method: "POST",
+//      headers: { "Content-Type": "application/json" },
+//      body: JSON.stringify({
+//        type: propertyType,
+//        location,
+//        price_per_night: Number(pricePerNight),
+//        max_guests: Number(maxGuests),
+//        bedrooms: Number(bedrooms),
+//        bathrooms: Number(bathrooms),
+//        allows_pets: allowsPets === "true",
+//        has_wifi: hasWifi === "true",
+//        has_parking: hasParking === "true",
+//        description,
+//      }),
+//    });
+//  
+//    const data = await res.json();
+//  
+//    if (!res.ok) {
+//      return { success: false, message: data.error };
+//    }
+//  
+//    return { success: true };
+//  }
   // cria uma conta para o usuario
   async function register(
     name: string,

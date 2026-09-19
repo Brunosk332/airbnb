@@ -27,10 +27,6 @@ export default function Header() {
    </div>
    <LanguageMenu />
    <ProfileButton />
-   <p>teste</p>
-   <p>teste</p>
-   <p>teste</p>
-   teste profile button 1231231231231231231312312
    <MenuButton />
  </div>
 </div>

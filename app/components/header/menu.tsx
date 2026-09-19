@@ -1,12 +1,12 @@
-'use client'
+"use client"
 import { useState, useRef, useEffect } from "react"; // ← tudo importado junto, no topo
+import { useAuth } from "../../context/AuthContext"
 import Image from "next/image";
 import Link from "next/link";
-import { useAuth } from "../../context/AuthContext"
 export function MenuButton() {
   const [MenuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
+ const { user } = useAuth();
   useEffect(() => {
     function fecharMenu(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -81,9 +81,16 @@ gap-3">
           <button className="w-full text-left px-6 py-1.5 hover:bg-gray-100 flex items-center 
 ap-3">
             <div className="flex flex-col">
+              { !user && (
               <Link className="font-semibold text-stone-700" href="/login">
               <span className="font-semibold text-stone-700">Entrar ou cadastrar-se</span>
               </Link>
+              )}
+              { user && (
+              <Link className="font-semibold text-stone-700" href="/logout">
+              <span className="font-semibold text-stone-700">Desconectar-se</span>
+              </Link>
+              )}
             </div>
           </button>
 
