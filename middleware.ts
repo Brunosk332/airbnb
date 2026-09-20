@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-//middleware para verificar se o usuario esta logado
+//middleware para verificar se o usuario esta logado na pagina de perfil
 export function middleware(request: NextRequest) {
   const sessionToken = request.cookies.get("sessionToken")?.value;
   if (!sessionToken) {
@@ -8,5 +8,5 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ["/perfil/:path*", "/newProperty/:path*"],
+  matcher: ["/profile/:path*", "/newProperty/:path*"],
 };

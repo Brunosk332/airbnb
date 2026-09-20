@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const user = result.rows[0];
 
     const passwordMatches = await bcrypt.compare(password, user.password_hash);
-
+    
     if (!passwordMatches) {
       return NextResponse.json({ error: "E-mail ou senha incorretos" }, { status: 401 });
     }
