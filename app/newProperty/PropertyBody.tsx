@@ -9,6 +9,7 @@ export default function PropertyBody() {
   const [pricePerNight, setPricePerNight] = useState("");
   const [maxGuests, setMaxGuests] = useState("");
   const [bedrooms, setBedrooms] = useState("");
+  const [beds, setBeds] = useState("");
   const [bathrooms, setBathrooms] = useState("");
   const [allowsPets, setAllowsPets] = useState("");
   const [hasWifi, setHasWifi] = useState("");
@@ -22,7 +23,7 @@ export default function PropertyBody() {
     file: File;
     category: string;
   }
-
+  
   const [images, setImages] = useState<Record<string, File | null>>({
     CoverImage: null,
     BedroomImage: null,
@@ -56,6 +57,7 @@ export default function PropertyBody() {
     formData.append("pricePerNight", pricePerNight);
     formData.append("maxGuests", maxGuests);
     formData.append("bedrooms", bedrooms);
+    formData.append("beds", beds);
     formData.append("bathrooms", bathrooms);
     formData.append("allowsPets", allowsPets);
     formData.append("hasWifi", hasWifi);
@@ -194,6 +196,23 @@ export default function PropertyBody() {
             />
           </div>
 
+          {/* BEDS */}
+          <div>
+            <label htmlFor="bedrooms" className="text-xl font-bold">
+              Camas
+            </label>
+
+            <input
+              type="number"
+              name="beds"
+              id="beds"
+              min="0"
+              placeholder="Ex: 2"
+              className="block mt-2 border-2 border-neutral-500 rounded-lg p-3 w-full"
+              value={beds}
+              onChange={(e) => setBeds(e.target.value)}
+            />
+          </div>
           {/* BATHROOMS */}
           <div>
             <label htmlFor="bathrooms" className="text-xl font-bold">
