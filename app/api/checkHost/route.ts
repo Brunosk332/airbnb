@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       "SELECT * FROM airbnb.sessions WHERE session_token = $1",
       [sessionToken],
     );
-    
+
     if (verifyUser.rows.length === 0) {
       return NextResponse.json({ isHost: false }, { status: 401 });
     }
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       { isHost: false },
       {
         status: 500,
-      },
+      }, 
     );
   }
 }
