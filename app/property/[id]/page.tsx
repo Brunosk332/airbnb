@@ -1,6 +1,7 @@
 import Grid from "../../components/home-list/grid";
 import Image from "next/image";
 import Header from "../../components/header/header";
+import Booking from "./booking2";
 async function getProperty(id: string) {
   const res = await fetch(`http://localhost:3000/api/properties/${id}`, {
     cache: "no-store",
@@ -26,7 +27,6 @@ export default async function PropertyDetails({
     property.imageUrl,
     property.imageUrl,
   ];
-
   return (
     <div className="min-h-screen w-full bg-white">
       <div className="bg-white max-w-[1200px] mx-auto">
@@ -70,7 +70,6 @@ export default async function PropertyDetails({
                 {property.reviewCount ?? 0} avaliações
               </span>
             </p>
-
             <hr className="my-6" />
 
             <div className="flex items-center gap-3 text-neutral-600">
@@ -120,35 +119,34 @@ export default async function PropertyDetails({
           <div>
             <div className="border rounded-xl shadow-lg p-6 sticky top-8">
               <p className="text-lg text-neutral-600">
-                Total:{" "}
+                Total por noite:
                 <span className="font-semibold">
                   R$ {Number(property.price_per_night)}
                 </span>
               </p>
-              <div className="border rounded-lg mt-4">
-                <div className="grid grid-cols-2 divide-x">
-                  <div className="p-3">
-                    <p className="text-xs font-semibold text-neutral-600">
-                      CHECK-IN
-                    </p>
-                    <p className="text-sm text-neutral-500">Selecionar data</p>
-                  </div>
-                  <div className="p-3">
-                    <p className="text-xs font-semibold text-neutral-600">
-                      CHECKOUT
-                    </p>
-                    <p className="text-sm text-neutral-500">Selecionar data</p>
-                  </div>
-                </div>
-                <div className="border-t p-3">
-                  <p className="text-xs font-semibold text-neutral-600">
-                    HÓSPEDES
-                  </p>
-                  <p className="text-sm text-neutral-500">
-                    {property.guests ?? 1} hóspede(s)
-                  </p>
-                </div>
-              </div>
+
+
+
+
+
+
+<Booking property={property}/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               <button className="w-full bg-pink-600 text-white rounded-lg py-3 mt-4 font-semibold hover:bg-pink-700 transition-colors">
                 Reservar
               </button>
