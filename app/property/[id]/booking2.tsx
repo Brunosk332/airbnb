@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
+import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface BookingProps {
@@ -11,7 +12,7 @@ interface Booking {
     check_out: string;
 }
 
-// Componente visual customizado que serve de "input" pro DatePicker
+// botao de selecionar datas
 const DateCell = forwardRef<HTMLDivElement, { label: string; value?: string; onClick?: () => void }>(
     ({ label, value, onClick }, ref) => (
         <div className="p-3 cursor-pointer" onClick={onClick} ref={ref}>
@@ -26,7 +27,7 @@ export default function Booking({ property }: BookingProps) {
     const [bookedDates, setBookedDates] = useState<Booking[]>([]);
     const [checkIn, setCheckIn] = useState<Date | null>(null);
     const [checkOut, setCheckOut] = useState<Date | null>(null);
-
+    const router = useRouter()
     useEffect(() => {
         async function fetchAvailability() {
             const res = await fetch(`/api/properties/${property.id}/availability`);
@@ -48,7 +49,17 @@ export default function Booking({ property }: BookingProps) {
     const formatDate = (date: Date | null) =>
         date ? date.toLocaleDateString("pt-BR") : undefined;
 
+    function handleBooking() {
+        if(!checkIn || !checkOut) return;
+        const params = new URLSearchParams({
+checkIn: checkIn.toISOString(),
+checkOut: checkOut.toISOString(),
+        });
+        router.push(`/property/${property.id}/payment?${params}`)
+    }
+
     return (
+        <>
         <div className="border rounded-lg mt-4">
             <div className="grid grid-cols-2 divide-x">
                 <DatePicker
@@ -73,5 +84,10 @@ export default function Booking({ property }: BookingProps) {
                 </p>
             </div>
         </div>
+                    <button onClick={handleBooking} className="w-full bg-pink-600 text-white rounded-lg py-3 mt-4 font-semibold hover:bg-pink-700 
+                    transition-colors">
+                                    Reservar
+                                  </button>
+                                  </>
     );
 }

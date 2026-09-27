@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
+import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 interface BookingProps {
     property: {id: string; price: number;}
@@ -27,6 +28,18 @@ export default function Booking({ property }: BookingProps) {
         start: new Date(booking.check_in),
         end: new Date(booking.check_out),
     }));
+ const router = useRouter();
+
+ function handleBooking() {
+ if (!checkIn || !checkOut) return;
+const params =  new URLSearchParams({
+  checkIn: checkIn.toISOString(),
+  checkOut: checkOut.toISOString(),
+});
+router.push(`/property/${property.id}/booking?${params}`);
+ }
+
+    
     return (
         <div>
         <h3>Selecione as datas</h3>

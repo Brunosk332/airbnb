@@ -1,4 +1,4 @@
-import Grid from "../../components/home-list/grid";
+
 import Image from "next/image";
 import Header from "../../components/header/header";
 import Booking from "./booking2";
@@ -27,6 +27,7 @@ export default async function PropertyDetails({
     property.imageUrl,
     property.imageUrl,
   ];
+
   return (
     <div className="min-h-screen w-full bg-white">
       <div className="bg-white max-w-[1200px] mx-auto">
@@ -146,10 +147,6 @@ export default async function PropertyDetails({
 
 
 
-
-              <button className="w-full bg-pink-600 text-white rounded-lg py-3 mt-4 font-semibold hover:bg-pink-700 transition-colors">
-                Reservar
-              </button>
               <p className="text-center text-sm text-neutral-500 mt-2">
                 Você ainda não será cobrado
               </p>
