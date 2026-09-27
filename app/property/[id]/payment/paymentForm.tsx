@@ -3,18 +3,16 @@ import { useState } from "react";
 
 interface PaymentFormProps {
     property: {
-        name: string;
-        image: string;
-        rating: number;
+        type: string;
+        images: string[];
         reviews: number;
+        location: string;
         price_per_night: number;
         guests?: number;
     };
     checkIn: Date;
     checkOut: Date;
 }
-
-
 export default function PaymentForm({ property, checkIn, checkOut }: PaymentFormProps) {
     const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("card");
 
@@ -107,14 +105,14 @@ export default function PaymentForm({ property, checkIn, checkOut }: PaymentForm
                 <div className="border rounded-xl p-6 h-fit">
                     <div className="flex gap-4">
                         <img
-                            src={property.image}
-                            alt={property.name}
+                            src={property.images[0]}
+                            alt="/placeholder.jpg"
                             className="w-20 h-20 rounded-lg object-cover"
                         />
                         <div>
-                            <h3 className="font-semibold">{property.name}</h3>
+                            <h3 className="font-semibold">{property.type}</h3>
                             <p className="text-sm text-neutral-600">
-                                ⭐ {property.rating} ({property.reviews})
+                                ⭐ {property.location}
                             </p>
                         </div>
                     </div>

@@ -1,23 +1,40 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
+
 interface BookingProps {
-    property: {id: string; price: number;}
+    property: { id: string; price: number; guests?: number; }
 }
 interface Booking {
     check_in: string;
     check_out: string;
 }
+
+// botao de selecionar datas
+const DateCell = forwardRef<HTMLDivElement, { label: string; value?: string; onClick?: () => void }>(
+    ({ label, value, onClick }, ref) => (
+        <div className="p-3 cursor-pointer" onClick={onClick} ref={ref}>
+            <p className="text-xs font-semibold text-neutral-600">{label}</p>
+            <p className="text-sm text-neutral-500">{value || "Selecionar data"}</p>
+        </div>
+    )
+);
+DateCell.displayName = "DateCell";
+
 export default function Booking({ property }: BookingProps) {
     const [bookedDates, setBookedDates] = useState<Booking[]>([]);
     const [checkIn, setCheckIn] = useState<Date | null>(null);
     const [checkOut, setCheckOut] = useState<Date | null>(null);
-
+    const router = useRouter()
     useEffect(() => {
         async function fetchAvailability() {
             const res = await fetch(`/api/properties/${property.id}/availability`);
+            if (!res.ok) {
+                console.error("Failed to fetch availability");
+                return;
+            }
             const data = await res.json();
             setBookedDates(data);
         }
@@ -28,72 +45,49 @@ export default function Booking({ property }: BookingProps) {
         start: new Date(booking.check_in),
         end: new Date(booking.check_out),
     }));
- const router = useRouter();
 
- function handleBooking() {
- if (!checkIn || !checkOut) return;
-const params =  new URLSearchParams({
-  checkIn: checkIn.toISOString(),
-  checkOut: checkOut.toISOString(),
-});
-router.push(`/property/${property.id}/booking?${params}`);
- }
+    const formatDate = (date: Date | null) =>
+        date ? date.toLocaleDateString("pt-BR") : undefined;
 
-    
+    function handleBooking() {
+        if(!checkIn || !checkOut) return;
+        const params = new URLSearchParams({
+checkIn: checkIn.toISOString(),
+checkOut: checkOut.toISOString(),
+        });
+        router.push(`/property/${property.id}/payment?${params}`)
+    }
+
     return (
-        <div>
-        <h3>Selecione as datas</h3>
-        <div>
-            <label>Check-in</label>
-            <DatePicker
-                selected={checkIn}
-                onChange={(date: Date | null) => setCheckIn(date)}
-                excludeDateIntervals={excludedIntervals}
-                minDate={new Date()}
-                placeholderText="Selecione o check-in"
-            />
-        </div>
-        <div>
-            <label>Check-out</label>
-            <DatePicker
-                selected={checkOut}
-                onChange={(date: Date | null) => setCheckOut(date)}
-                excludeDateIntervals={excludedIntervals}
-                minDate={checkIn ? new Date(checkIn.getTime() +24 * 60 * 60 * 1000): new Date()}
-                placeholderText="Selecione o check-out"
-            />
-        </div>
+        <>
         <div className="border rounded-lg mt-4">
-                <div className="grid grid-cols-2 divide-x">
-                  <div className="p-3">
-                    <p className="text-xs font-semibold text-neutral-600">
-                      CHECK-IN
-                    </p>
-                    <p className="text-sm text-neutral-500">Selecionar data</p>
-                  </div>
-                  <div className="p-3">
-                    <p className="text-xs font-semibold text-neutral-600">
-                      CHECKOUT
-                    </p>
-                    <p className="text-sm text-neutral-500">Selecionar data</p>
-                  </div>
-                </div>
-                <div className="border-t p-3">
-                  <p className="text-xs font-semibold text-neutral-600">
-                    HÓSPEDES
-                  </p>
-                  <p className="text-sm text-neutral-500">
-                  </p>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 divide-x">
+                <DatePicker
+                    selected={checkIn}
+                    onChange={(date: Date | null) => setCheckIn(date)}
+                    excludeDateIntervals={excludedIntervals}
+                    minDate={new Date()}
+                    customInput={<DateCell label="CHECK-IN" value={formatDate(checkIn)} />}
+                />
+                <DatePicker
+                    selected={checkOut}
+                    onChange={(date: Date | null) => setCheckOut(date)}
+                    excludeDateIntervals={excludedIntervals}
+                    minDate={checkIn ? new Date(checkIn.getTime() + 24 * 60 * 60 * 1000) : new Date()}
+                    customInput={<DateCell label="CHECKOUT" value={formatDate(checkOut)} />}
+                />
+            </div>
+            <div className="border-t p-3">
+                <p className="text-xs font-semibold text-neutral-600">HÓSPEDES</p>
+                <p className="text-sm text-neutral-500">
+                    {property.guests ?? 1} hóspede(s)
+                </p>
+            </div>
         </div>
-    )
+                    <button onClick={handleBooking} className="w-full bg-pink-600 text-white rounded-lg py-3 mt-4 font-semibold hover:bg-pink-700 
+                    transition-colors">
+                                    Reservar
+                                  </button>
+                                  </>
+    );
 }
-//Resolver o property.id indefinido — trocar a forma de pegar o ID da propriedade. Duas opções (você escolhe uma quando voltar, sem pressa):
-//Usar useParams() do next/navigation pra pegar o ID direto da URL
-//Ou receber property como prop vinda do page.tsx pai
-//Terminar o booking.tsx: usar os bookedDates retornados pra desabilitar essas datas no calendário de reserva (formato excludeDateIntervals se usar react-datepicker).
-//Voltar pra rota POST /api/bookings: você já tem a checagem de sessão e a validação de datas prontas. Falta:
-//A query SQL de conflito (OVERLAPS) — isso é só uma condição matemática comparando duas datas, mais simples do que parece
-//O INSERT da reserva se não houver conflito
-//Formulário no frontend: conectar o botão "Reservar" pra chamar essa rota POST.

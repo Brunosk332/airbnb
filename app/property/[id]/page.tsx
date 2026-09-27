@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import Header from "../../components/header/header";
-import Booking from "./booking2";
+import Booking from "./booking";
 async function getProperty(id: string) {
   const res = await fetch(`http://localhost:3000/api/properties/${id}`, {
     cache: "no-store",
