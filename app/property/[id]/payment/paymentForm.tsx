@@ -77,13 +77,18 @@ export default function PaymentForm({ property, checkIn, checkOut }: PaymentForm
                     </div>
 
                     {paymentMethod === "card" && (
+                        <>
                         <div className="border rounded-lg mt-4">
                             <input type="text" placeholder="Número do cartão" className="w-full p-3 border-b outline-none" />
+
                             <div className="grid grid-cols-2">
                                 <input type="text" placeholder="Validade" className="p-3 border-r outline-none" />
                                 <input type="text" placeholder="CVV" className="p-3 outline-none" />
                             </div>
+
                         </div>
+                        <span>*Preencha com qualquer dado</span>
+                        </>
                     )}
 
                     <h3 className="font-semibold mt-6 mb-1">Informações fiscais</h3>
