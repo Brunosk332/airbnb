@@ -95,7 +95,7 @@ export async function POST(request: Request) {
       );
     }
     const CreateBooking = await pool.query(
-      "INSERT INTO airbnb.bookings (property_id, check_in, check_out, total_price, guests, user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      "INSERT INTO airbnb.bookings (property_id, check_in, check_out, total_price, guests, user_id, payment_method, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
       [
         property_id,
         checkInFormatted,
@@ -103,15 +103,23 @@ export async function POST(request: Request) {
         total_price,
         guests,
         userId,
+        paymentMethod,
+        "confirmed",
       ],
     );
 
     return NextResponse.json(CreateBooking.rows[0], { status: 201 });
-  } catch (error) {
+  } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    if (error.code === "23P01") {
+        return NextResponse.json(
+            { error: "Já existe uma reserva para esta data" },
+            { status: 409 },
+        );
+    }
     console.error(error);
     return NextResponse.json(
       { error: "Erro ao reservar acomodação" },
       { status: 500 },
     );
-  }
+}
 }
