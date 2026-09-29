@@ -3,7 +3,7 @@ import pool from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 export async function POST(request: Request) {
   const CurrentDate = new Date();
-  CurrentDate.setHours(0, 0, 0, 0);
+  CurrentDate.setUTCHours(0, 0, 0, 0);
   try {
     const userId = await getSessionUser();
     if (!userId) {
@@ -14,6 +14,8 @@ export async function POST(request: Request) {
     }
     const { property_id, check_in, check_out, paymentMethod, guests } =
       await request.json();
+
+    const guestsNumber = Number(guests);
 
     if (!property_id || !check_in || !check_out || !paymentMethod || !guests) {
       return NextResponse.json(
@@ -27,7 +29,7 @@ export async function POST(request: Request) {
       "SELECT * FROM airbnb.properties WHERE id = $1",
       [property_id],
     );
-    if (verifyProperty.rowCount === 0) {
+    if (verifyProperty.rows.length === 0) {
       return NextResponse.json(
         { error: "Propriedade não encontrada" },
         { status: 400 },
@@ -77,7 +79,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Preço inválido" }, { status: 400 });
     }
 
-    if (guests < 1 || guests > 4) {
+    if (
+      guestsNumber !== 1 &&
+      guestsNumber !== 2 &&
+      guestsNumber !== 3 &&
+      guestsNumber !== 4
+    ) {
       return NextResponse.json(
         { error: "Número de hóspedes inválido" },
         { status: 400 },
@@ -85,7 +92,7 @@ export async function POST(request: Request) {
     }
 
     const verifyIfBookingExists = await pool.query(
-      "SELECT * FROM airbnb.bookings WHERE property_id = $1 AND check_in < $3 AND check_out > $2",
+      "SELECT id FROM airbnb.bookings WHERE property_id = $1 AND check_in < $3 AND check_out > $2",
       [property_id, checkInFormatted, checkOutFormatted],
     );
     if (verifyIfBookingExists.rows.length > 0) {
@@ -101,7 +108,7 @@ export async function POST(request: Request) {
         checkInFormatted,
         checkOutFormatted,
         total_price,
-        guests,
+        guestsNumber,
         userId,
         paymentMethod,
         "confirmed",
@@ -109,17 +116,18 @@ export async function POST(request: Request) {
     );
 
     return NextResponse.json(CreateBooking.rows[0], { status: 201 });
-  } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    // eslint-disable-line @typescript-eslint/no-explicit-any
     if (error.code === "23P01") {
-        return NextResponse.json(
-            { error: "Já existe uma reserva para esta data" },
-            { status: 409 },
-        );
+      return NextResponse.json(
+        { error: "Já existe uma reserva para esta data" },
+        { status: 409 },
+      );
     }
     console.error(error);
     return NextResponse.json(
       { error: "Erro ao reservar acomodação" },
       { status: 500 },
     );
-}
+  }
 }
