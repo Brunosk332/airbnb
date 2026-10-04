@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { DatabaseError } from "pg";
+import { Verify } from "crypto";
 export async function POST(request: Request) {
   // cria uma variável com a data atual em UTC
   const CurrentDate = new Date();
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
       );
     }
     // pega os dados do corpo da requisição
-    const { property_id, check_in, check_out, paymentMethod, guests } =
+    const { property_id, check_in, check_out, paymentMethod, guests} =
       await request.json();
     //transforma a const guest  em um numero
     const guestsNumber = Number(guests);
@@ -31,7 +32,7 @@ export async function POST(request: Request) {
     // esta api não tem pagamento implementado então não é necessário preencher os dados de pix ou cartao com algo real
     // verifica se a propriedade existe no banco de dados puxando o id do host e o preço por noite da propriedade
     const verifyProperty = await pool.query(
-      "SELECT host_id, price_per_night FROM airbnb.properties WHERE id = $1",
+      "SELECT host_id, price_per_night, max_guests FROM airbnb.properties WHERE id = $1",
       [property_id],
     );
     if (verifyProperty.rows.length === 0) {
@@ -138,7 +139,7 @@ export async function POST(request: Request) {
     if (
       !Number.isInteger(guestsNumber) ||
       guestsNumber < 1 ||
-      guestsNumber > 4
+      guestsNumber > verifyProperty.rows[0].max_guests
     ) {
       return NextResponse.json(
         { error: "Número de hóspedes inválido" },

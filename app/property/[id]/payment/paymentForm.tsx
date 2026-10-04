@@ -9,6 +9,7 @@ interface PaymentFormProps {
     images: string[];
     location: string;
     price_per_night: number;
+    max_guests: number;
   };
   checkIn: Date;
   checkOut: Date;
@@ -232,7 +233,7 @@ export default function PaymentForm({
             <div className="flex justify-center gap-8">
               <button
                 type="button"
-                onClick={(s) => setGuests(Math.min(4, guests + 1))}
+                onClick={(s) => setGuests(Math.min(property.max_guests, guests + 1))}
                 className="border-2 mt-4 block w-full rounded-xl py- px-5 border-neutral-300 text-md text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 focus:outline-none text-5xl"
               >
                 +
