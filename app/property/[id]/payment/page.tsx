@@ -1,5 +1,4 @@
 import PaymentForm from "./paymentForm";
-
 async function getProperty(id: string) {
     const res = await fetch(`http://localhost:3000/api/properties/${id}`, { cache: "no-store" });
     if (!res.ok) {
@@ -7,7 +6,6 @@ async function getProperty(id: string) {
     }
     return res.json();
 }
-
 export default async function ConfirmPayment({
     params,
     searchParams,
