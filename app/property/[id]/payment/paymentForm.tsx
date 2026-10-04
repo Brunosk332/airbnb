@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { bookings } from "@/lib/apiBooking";
+import Link from "next/link";
 interface PaymentFormProps {
   property: {
     id: number;
@@ -13,11 +14,13 @@ interface PaymentFormProps {
   };
   checkIn: Date;
   checkOut: Date;
+  guests: number;
 }
 export default function PaymentForm({
   property,
   checkIn,
   checkOut,
+  guests: initialGuests,
 }: PaymentFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -37,9 +40,8 @@ export default function PaymentForm({
   }
 
   const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("card");
-
   const price = Number(property.price_per_night);
-  const [guests, setGuests] = useState<number>(1);
+  const [guests, setGuests] = useState<number>(initialGuests);
   const [guestsMenu, setGuestsMenu] = useState(false);
   const nights = Math.round(
     (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24),
@@ -53,9 +55,22 @@ export default function PaymentForm({
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
       <div className="flex items-center gap-4 mb-8">
-        <button className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-          ←
-        </button>
+        <Link href={`/property/${property.id}`} className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
+        <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M19 12H5" />
+        <path d="M12 19l-7-7 7-7" />
+      </svg>
+      </Link>
         <h1 className="text-3xl font-semibold">Confirmar e pagar</h1>
       </div>
 
@@ -165,7 +180,7 @@ export default function PaymentForm({
             />
             <div>
               <h3 className="font-semibold">{property.type}</h3>
-              <p className="text-sm text-neutral-600">⭐ {property.location}</p>
+              <p className="text-sm text-neutral-600">{property.location}</p>
             </div>
           </div>
 
@@ -209,9 +224,6 @@ export default function PaymentForm({
         </div>
       </div>
 
-      {guestsMenu && (
-        <div className="absolute inset-0 bg-black/40 pointer-events-none hidden sm:block" />
-      )}
       {guestsMenu && (
         <div className="absolute inset-0 flex items-start justify-center sm:top-10 sm:items-center sm:bottom-10">
           <div className="w-full max-w-lg px-4 py-18 bg-white sm:shadow-xl sm:rounded-4xl">

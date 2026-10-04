@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
       //transforma o timestamp em um objeto date em UTC
       const date = new Date(Date.UTC(year, month - 1, day));
-      // verifica se a data gerada a partir do timestamp é igual a data passada pelo usuário, bloqueia datas que não existem
+      // verifica se a data gerada a pssssartir do timestamp é igual a data passada pelo usuário, bloqueia datas que não existem
       return (
         date.getUTCFullYear() === year &&
         date.getUTCMonth() === month - 1 &&
