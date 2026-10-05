@@ -85,13 +85,6 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    // se checkin for menor que a data atual retorna erro
-    if (checkIn < CurrentDate) {
-      return NextResponse.json(
-        { error: "Data de check-in não pode ser no passado" },
-        { status: 400 },
-      );
-    }
     // cria um objeto date com a data do dia seguinte para garantiur que o usuario tenha reservado com pelo menos 1 dia de antecedência
     const NextDay = new Date(CurrentDate);
     NextDay.setUTCDate(NextDay.getUTCDate() + 1);

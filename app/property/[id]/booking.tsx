@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface BookingProps {
-  property: { id: string; price: number; guests?: number };
+  property: { id: string; price: number; max_guests: number };
 }
 interface Booking {
   check_in: string;
   check_out: string;
 }
-
+ 
 // botao de selecionar datas
 const DateCell = forwardRef<
   HTMLDivElement,
@@ -61,7 +61,25 @@ export default function Booking({ property }: BookingProps) {
     });
     router.push(`/property/${property.id}/payment?${params}`);
   }
+  const BR_TZ = "America/Sao_Paulo";
 
+function todayUTCMinus3(): Date {
+  // en-CA formata como YYYY-MM-DD
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: BR_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+
+  const [y, m, d] = today.split("-").map(Number);
+
+  // meia-noite do proximo dia em uTc-3
+  return new Date(y, m - 1, d );
+}
+const currentDate = todayUTCMinus3();
+const tomorrow = new Date(currentDate);
+tomorrow.setDate(tomorrow.getDate() +1);
   return (
     <>
       <div className="border rounded-lg mt-4">
@@ -70,7 +88,7 @@ export default function Booking({ property }: BookingProps) {
             selected={checkIn}
             onChange={(date: Date | null) => setCheckIn(date)}
             excludeDateIntervals={excludedIntervals}
-            minDate={new Date()}
+            minDate={tomorrow }
             customInput={
               <DateCell label="CHECK-IN" value={formatDate(checkIn)} />
             }
