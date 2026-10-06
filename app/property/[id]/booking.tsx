@@ -49,9 +49,12 @@ export default function Booking({ property }: BookingProps) {
     end: new Date(booking.check_out),
   }));
 
-  const formatDate = (date: Date | null) =>
-    date ? date.toLocaleDateString("pt-BR") : undefined;
-
+ const formatDate = (date: Date | null) => {
+   return date ? date.toLocaleDateString("en-CA", {
+   timeZone: "America/Sao_Paulo",
+   })
+   :undefined
+ }
   function handleBooking() {
     if (!checkIn || !checkOut) return;
     const params = new URLSearchParams({
@@ -62,7 +65,6 @@ export default function Booking({ property }: BookingProps) {
     router.push(`/property/${property.id}/payment?${params}`);
   }
   const BR_TZ = "America/Sao_Paulo";
-
 function todayUTCMinus3(): Date {
   // en-CA formata como YYYY-MM-DD
   const today = new Intl.DateTimeFormat("en-CA", {
@@ -80,6 +82,8 @@ function todayUTCMinus3(): Date {
 const currentDate = todayUTCMinus3();
 const tomorrow = new Date(currentDate);
 tomorrow.setDate(tomorrow.getDate() +1);
+
+
   return (
     <>
       <div className="border rounded-lg mt-4">
@@ -89,6 +93,7 @@ tomorrow.setDate(tomorrow.getDate() +1);
             onChange={(date: Date | null) => setCheckIn(date)}
             excludeDateIntervals={excludedIntervals}
             minDate={tomorrow }
+            dateFormat="dd/MM/yyyy"
             customInput={
               <DateCell label="CHECK-IN" value={formatDate(checkIn)} />
             }
@@ -97,10 +102,11 @@ tomorrow.setDate(tomorrow.getDate() +1);
             selected={checkOut}
             onChange={(date: Date | null) => setCheckOut(date)}
             excludeDateIntervals={excludedIntervals}
+            dateFormat="dd/MM/yyyy"
             minDate={
               checkIn
                 ? new Date(checkIn.getTime() + 24 * 60 * 60 * 1000)
-                : new Date()
+                : tomorrow
             }
             customInput={
               <DateCell label="CHECKOUT" value={formatDate(checkOut)} />
