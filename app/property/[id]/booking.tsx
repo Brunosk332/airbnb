@@ -3,6 +3,8 @@ import { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
+import DatePickerPage from "./datepicker";
+import { useBookingDates } from "../../context/bookingContext";
 
 interface BookingProps {
   property: { id: string; price: number; max_guests: number };
@@ -11,25 +13,15 @@ interface Booking {
   check_in: string;
   check_out: string;
 }
- 
-// botao de selecionar datas
-const DateCell = forwardRef<
-  HTMLDivElement,
-  { label: string; value?: string; onClick?: () => void }
->(({ label, value, onClick }, ref) => (
-  <div className="p-3 cursor-pointer" onClick={onClick} ref={ref}>
-    <p className="text-xs font-semibold text-neutral-600">{label}</p>
-    <p className="text-sm text-neutral-500">{value || "Selecionar data"}</p>
-  </div>
-));
-DateCell.displayName = "DateCell";
 
+//revisar
 export default function Booking({ property }: BookingProps) {
   const [bookedDates, setBookedDates] = useState<Booking[]>([]);
-  const [checkIn, setCheckIn] = useState<Date | null>(null);
-  const [checkOut, setCheckOut] = useState<Date | null>(null);
   const [guests, setGuests] = useState<number>(1);
   const [guestsMenu, setGuestsMenu] = useState(false);
+  const { checkIn: contextIn, checkOut: contextOut} =  useBookingDates();
+  const checkIn = contextIn;
+  const checkOut = contextOut
   const router = useRouter();
   useEffect(() => {
     async function fetchAvailability() {
@@ -44,17 +36,6 @@ export default function Booking({ property }: BookingProps) {
     fetchAvailability();
   }, [property.id]);
 
-  const excludedIntervals = bookedDates.map((booking) => ({
-    start: new Date(booking.check_in),
-    end: new Date(booking.check_out),
-  }));
-
- const formatDate = (date: Date | null) => {
-   return date ? date.toLocaleDateString("en-CA", {
-   timeZone: "America/Sao_Paulo",
-   })
-   :undefined
- }
   function handleBooking() {
     if (!checkIn || !checkOut) return;
     const params = new URLSearchParams({
@@ -64,61 +45,18 @@ export default function Booking({ property }: BookingProps) {
     });
     router.push(`/property/${property.id}/payment?${params}`);
   }
-  const BR_TZ = "America/Sao_Paulo";
-function todayUTCMinus3(): Date {
-  // en-CA formata como YYYY-MM-DD
-  const today = new Intl.DateTimeFormat("en-CA", {
-    timeZone: BR_TZ,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date());
-
-  const [y, m, d] = today.split("-").map(Number);
-
-  // meia-noite do proximo dia em uTc-3
-  return new Date(y, m - 1, d );
-}
-const currentDate = todayUTCMinus3();
-const tomorrow = new Date(currentDate);
-tomorrow.setDate(tomorrow.getDate() +1);
-
 
   return (
     <>
       <div className="border rounded-lg mt-4">
-        <div className="grid grid-cols-2 divide-x">
-          <DatePicker
-            selected={checkIn}
-            onChange={(date: Date | null) => setCheckIn(date)}
-            excludeDateIntervals={excludedIntervals}
-            minDate={tomorrow }
-            dateFormat="dd/MM/yyyy"
-            customInput={
-              <DateCell label="CHECK-IN" value={formatDate(checkIn)} />
-            }
-          />
-          <DatePicker
-            selected={checkOut}
-            onChange={(date: Date | null) => setCheckOut(date)}
-            excludeDateIntervals={excludedIntervals}
-            dateFormat="dd/MM/yyyy"
-            minDate={
-              checkIn
-                ? new Date(checkIn.getTime() + 24 * 60 * 60 * 1000)
-                : tomorrow
-            }
-            customInput={
-              <DateCell label="CHECKOUT" value={formatDate(checkOut)} />
-            }
-          />
-        </div>
+
+<DatePickerPage propertyId={property.id} checkIn={checkIn} checkOut={checkOut}/>
         <div className="border-t p-3">
           <p className="text-xs font-semibold text-neutral-600">HÓSPEDES</p>
           <p className="text-sm text-neutral-500 hover:cursor-pointer" onClick={() => setGuestsMenu(!guestsMenu)}>
             {guests} Hóspedes(s)
           </p>
-        </div>
+        </div>a
       </div>
       <button
         onClick={handleBooking}

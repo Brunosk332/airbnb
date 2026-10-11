@@ -2,7 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { bookings } from "@/lib/apiBooking";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePickerPage from "../datepicker";
+import { BookingDatesProvider } from "../../../context/bookingContext";
 import Link from "next/link";
+import { useBookingDates } from "../../../context/bookingContext";
 interface PaymentFormProps {
   property: {
     id: number;
@@ -18,13 +23,22 @@ interface PaymentFormProps {
 }
 export default function PaymentForm({
   property,
-  checkIn,
-  checkOut,
+  checkIn: initialCheckIn,
+  checkOut: initialCheckOut,
   guests: initialGuests,
 }: PaymentFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  async function handleBooking(e: React.SyntheticEvent<HTMLFormElement>) {
+  const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("card");
+  const price = Number(property.price_per_night);
+  const [guests, setGuests] = useState<number>(initialGuests);
+  const { checkIn: contextIn, checkOut: contextOut } = useBookingDates();
+  const checkIn = contextIn || initialCheckIn;
+  const checkOut = contextOut || initialCheckOut;
+  const [guestsMenu, setGuestsMenu] = useState(false);
+  const [datePickerMenu, setDatePickerMenu] = useState(false);
+
+  async function handlePayment(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     const result = await bookings(
@@ -38,11 +52,23 @@ export default function PaymentForm({
       router.push("/success");
     }
   }
-
-  const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("card");
-  const price = Number(property.price_per_night);
-  const [guests, setGuests] = useState<number>(initialGuests);
-  const [guestsMenu, setGuestsMenu] = useState(false);
+  // const [checkIn, setCheckIn] = useState<Date>(initialCheckIn);
+  // const [checkOut, setCheckOut] = useState<Date>(initialCheckOut);
+  // const [draftIn, setDraftIn] = useState<Date | null>(initialCheckIn);
+  // const [draftOut, setDraftOut] = useState<Date | null>(initialCheckOut);
+  // troca os dados de datas preenchidos na pagina anterior pelos preenchidos nesta página
+  // function openDraftDates()  {
+  //   setDraftIn(checkIn)
+  //   setDraftOut(checkOut)
+  //   setDatePickerMenu(true);
+  // }
+  //  function applyDraftDates() {
+  //   if(!draftIn || !draftOut) return ;
+  //     setCheckIn(draftIn);
+  //     setCheckOut(draftOut);
+  //   // após preencher os dados, fecha o menu
+  //     setDatePickerMenu(false);
+  //   }
   const nights = Math.round(
     (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24),
   );
@@ -55,22 +81,25 @@ export default function PaymentForm({
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
       <div className="flex items-center gap-4 mb-8">
-        <Link href={`/property/${property.id}`} className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center">
-        <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M19 12H5" />
-        <path d="M12 19l-7-7 7-7" />
-      </svg>
-      </Link>
+        <Link
+          href={`/property/${property.id}`}
+          className="w-10 h-10 rounded-full bg-neutral-100 flex items-center justify-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5" />
+            <path d="M12 19l-7-7 7-7" />
+          </svg>
+        </Link>
         <h1 className="text-3xl font-semibold">Confirmar e pagar</h1>
       </div>
 
@@ -190,7 +219,12 @@ export default function PaymentForm({
               <p className="text-sm text-neutral-600">
                 {formatDate(checkIn)} - {formatDate(checkOut)}
               </p>
-              <button className="text-sm underline">Alterar</button>
+              <button
+                onClick={() => setDatePickerMenu(!datePickerMenu)}
+                className="text-sm underline"
+              >
+                Alterar
+              </button>
             </div>
           </div>
 
@@ -223,7 +257,24 @@ export default function PaymentForm({
           </div>
         </div>
       </div>
-
+      {datePickerMenu && (
+        <div className="absolute inset-0 flex items-start justify-center sm:top-10 sm:items-center sm:bottom-10">
+          <div className="w-full max-w-lg px-4 py-18 bg-white sm:shadow-xl sm:rounded-4xl">
+            <span className="block text-stone-700 text-3xl py-3">
+              Alterar datas
+            </span>
+            <DatePickerPage property={property} />
+            <button
+              type="submit"
+              className="bg-linear-to-r from-red-500 via-rose-500 to-pink-600 text-white font-semibold py-3 px-6 
+rounded-xl w-full mt-3"
+              onClick={() => setDatePickerMenu(false)}
+            >
+              Adicionar
+            </button>
+          </div>
+        </div>
+      )}
       {guestsMenu && (
         <div className="absolute inset-0 flex items-start justify-center sm:top-10 sm:items-center sm:bottom-10">
           <div className="w-full max-w-lg px-4 py-18 bg-white sm:shadow-xl sm:rounded-4xl">
@@ -245,7 +296,9 @@ export default function PaymentForm({
             <div className="flex justify-center gap-8">
               <button
                 type="button"
-                onClick={(s) => setGuests(Math.min(property.max_guests, guests + 1))}
+                onClick={(s) =>
+                  setGuests(Math.min(property.max_guests, guests + 1))
+                }
                 className="border-2 mt-4 block w-full rounded-xl py- px-5 border-neutral-300 text-md text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 focus:outline-none text-5xl"
               >
                 +

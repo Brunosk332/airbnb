@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       );
     }
     // pega os dados do corpo da requisição
-    const { property_id, check_in, check_out, paymentMethod, guests} =
+    const { property_id, check_in, check_out, paymentMethod, guests } =
       await request.json();
     //transforma a const guest  em um numero
     const guestsNumber = Number(guests);
@@ -110,7 +110,7 @@ export async function POST(request: Request) {
     // verifica o preço por noite da propriedade no banco de dados
     const pricePerNight = Number(verifyProperty.rows[0].price_per_night);
     // converte a data para dias
-    const nights = 
+    const nights =
       (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24);
     let total_price = 0;
     // calcula o total do preço com taxa do cartao e do pix, se não for pix ou card retorna erro
@@ -156,7 +156,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(CreateBooking.rows[0], { status: 201 });
   } catch (error) {
-    if (error  instanceof DatabaseError && error.code === "23P01") {
+    if (error instanceof DatabaseError && error.code === "23P01") {
       return NextResponse.json(
         { error: "Já existe uma reserva para esta data" },
         { status: 409 },

@@ -1,4 +1,6 @@
+import Booking from "../booking";
 import PaymentForm from "./paymentForm";
+import { BookingDatesProvider } from "../../../context/bookingContext";
 async function getProperty(id: string) {
   const res = await fetch(`http://localhost:3000/api/properties/${id}`, {
     cache: "no-store",
@@ -36,11 +38,14 @@ export default async function ConfirmPayment({
   }
 
   return (
+    <BookingDatesProvider>
     <PaymentForm
       property={property}
       checkIn={new Date(checkInParam)}
       checkOut={new Date(checkOutParam)}
       guests={guests}
     />
+    </BookingDatesProvider>
+
   );
 }

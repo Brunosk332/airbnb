@@ -2,6 +2,8 @@
 import Image from "next/image";
 import Header from "../../components/header/header";
 import Booking from "./booking";
+import { BookingDatesProvider } from "../../context/bookingContext";
+import { useBookingDates } from "../../context/bookingContext";
 async function getProperty(id: string) {
   const res = await fetch(`http://localhost:3000/api/properties/${id}`, {
     cache: "no-store",
@@ -130,9 +132,9 @@ export default async function PropertyDetails({
 
 
 
-
-<Booking property={property}/>
-
+<BookingDatesProvider>
+  <Booking property={property} />
+</BookingDatesProvider>
 
 
 
