@@ -9,7 +9,7 @@ export async function bookings(
   
 ) {
   try {
-    const res = await fetch(`${API_URL}/bookigns`, {
+    const res = await fetch(`${API_URL}/bookings`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
