@@ -68,7 +68,6 @@ export default function PaymentForm({
     // query
     setLoading(true);
     const result = await bookings(
-
       property.id,
       checkIn,
       checkOut,

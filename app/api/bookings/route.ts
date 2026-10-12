@@ -2,21 +2,21 @@ import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { DatabaseError } from "pg";
+import { check } from "zod";
 export async function POST(request: Request) {
   // cria uma variável com a data atual em UTC
   const CurrentDate = new Date();
   CurrentDate.setUTCHours(0, 0, 0, 0);
   try {
-    // verifica se o usuarioi  está logado
-    console.log("teste1");
-    const userId = await getSessionUser();
-    if (!userId) {
+    // verifica se o usuario  está logado
+    const session = await getSessionUser();
+    const guestId = session.user_id;
+    if (!guestId) {
       return NextResponse.json(
         { error: "Precisa estar logado em uma conta" },
         { status: 401 },
       );
     }
-    console.log("teste2");
     // pega os dados do corpo da requisição
     const {
       property_id,
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+    
 
     // esta api não tem pagamento implementado então não é necessário preencher os dados de pix ou cartao com algo real
     // verifica se a propriedade existe no banco de dados puxando o id do host e o preço por noite da propriedade
@@ -54,8 +55,9 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+
     // garante que o host da propriedade não possa reservar sua propriedade
-    if (verifyProperty.rows[0].host_id === userId) {
+    if (verifyProperty.rows[0].host_id === guestId) {
       return NextResponse.json(
         { error: "Você não pode reservar esta propriedade" },
         { status: 400 },
@@ -70,6 +72,7 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+
     //função de validar data, verifica se a data não está fora do padrão, ex: 2026-02-31
     function isValidDate(dateString: string) {
       const [year, month, day] = dateString.split("-").map(Number);
@@ -131,6 +134,7 @@ export async function POST(request: Request) {
     } else if (paymentMethod === "card") {
       total_price = pricePerNight * nights * 1.108;
     } else {
+
       return NextResponse.json(
         { error: "Método de pagamento inválido" },
         { status: 400 },
@@ -153,14 +157,14 @@ export async function POST(request: Request) {
     }
     //  Insert do booking
     const CreateBooking = await pool.query(
-      "INSERT INTO airbnb.bookings (property_id, check_in, check_out, total_price, guests, user_id, payment_method, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+      "INSERT INTO airbnb.bookings (property_id, check_in, check_out, total_price, guests, guest_id, payment_method, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
       [
         property_id,
         check_in,
         check_out,
         total_price,
         guestsNumber,
-        userId,
+        guestId,
         paymentMethod,
         "confirmed",
       ],
