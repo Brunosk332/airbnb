@@ -37,7 +37,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 
 
-## Melhorias da API de reservas
+## Melhorias das APIS
+verificarr todas as APIS com ZOD
 
 ### Validações
 
