@@ -5,6 +5,7 @@ import { bookings } from "@/lib/apiBooking";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import DatePickerPage from "../datepicker";
+import Image from "next/image";
 import Link from "next/link";
 import { useBookingDates } from "../../../context/bookingContext";
 import { todayInBrasilia } from "@/lib/dates";
@@ -194,18 +195,15 @@ export default function PaymentForm({
                 onChange={(e) => setCompleteName(e.target.value)}
                 placeholder="Nome legal completo"
                 className="w-full p-3 outline-none"
-                required
               />
-              <span>*Preencha com qualquer dado</span>
               <input
                 type="text"
                 value={CPF}
                 onChange={(e) => setCPF(e.target.value)}
                 placeholder="Digite seu CPF"
                 className="w-full p-3 outline-none"
-                required
               />
-              <span>*Preencha com qualquer dado</span>
+
               <DatePicker
                 className="w-full p-3 outline-none"
                 selected={birthday}
@@ -217,14 +215,13 @@ export default function PaymentForm({
                 showYearDropdown
                 dropdownMode="select"
                 yearDropdownItemNumber={115}
-                required
               />
-              <span>*Preencha com qualquer dado</span>
             </div>
-
+            <span className="w-full text-sm">*Preencha com qualquer dado</span>
+            {error && <span className="block w-full text-center mt-3 text-sm text-red-500">{error}</span>}
             <button
               type="submit"
-              className="w-full bg-black text-white rounded-lg py-3 mt-6 font-medium"
+              className="w-full bg-black text-white rounded-lg py-3 mt-3 font-medium"
             >
               Próximo
             </button>
@@ -232,7 +229,9 @@ export default function PaymentForm({
 
           <div className="border rounded-xl p-6 h-fit">
             <div className="flex gap-4">
-              <img
+              <Image
+                width={90}
+                height={90}
                 src={property.images[0]}
                 alt="/placeholder.jpg"
                 className="w-20 h-20 rounded-lg object-cover"
@@ -250,6 +249,7 @@ export default function PaymentForm({
                   {formatDate(checkIn)} - {formatDate(checkOut)}
                 </p>
                 <button
+                  type="button"
                   onClick={() => setDatePickerMenu(!datePickerMenu)}
                   className="text-sm underline"
                 >
@@ -263,6 +263,7 @@ export default function PaymentForm({
               <div className="flex justify-between items-center">
                 <p className="text-sm text-neutral-600">{guests} adulto(s)</p>
                 <button
+                  type="button"
                   className="text-sm underline"
                   onClick={() => setGuestsMenu(!guestsMenu)}
                 >
@@ -302,7 +303,6 @@ export default function PaymentForm({
               />
 
               <button
-                type="submit"
                 className="bg-linear-to-r from-red-500 via-rose-500 to-pink-600 text-white font-semibold py-3 px-6 
 rounded-xl w-full mt-3"
                 onClick={() => setDatePickerMenu(false)}
