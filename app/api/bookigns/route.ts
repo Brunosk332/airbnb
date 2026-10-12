@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   CurrentDate.setUTCHours(0, 0, 0, 0);
   try {
     // verifica se o usuarioi  está logado
+    console.log("teste1");
     const userId = await getSessionUser();
     if (!userId) {
       return NextResponse.json(
@@ -16,13 +17,32 @@ export async function POST(request: Request) {
         { status: 401 },
       );
     }
+    console.log("teste2");
     // pega os dados do corpo da requisição
-    const { property_id, check_in, check_out, paymentMethod, guests } =
-      await request.json();
+    const {
+      property_id,
+      check_in,
+      check_out,
+      paymentMethod,
+      guests,
+      completeName,
+      CPF,
+      birthday,
+    } = await request.json();
+    await request.json();
     //transforma a const guest  em um numero
     const guestsNumber = Number(guests);
     // verifica se os campos obrigatórios não estão vazios
-    if (!property_id || !check_in || !check_out || !paymentMethod || !guests) {
+    if (
+      !property_id ||
+      !check_in ||
+      !check_out ||
+      !paymentMethod ||
+      !guests ||
+      !completeName ||
+      !CPF ||
+      !birthday
+    ) {
       return NextResponse.json(
         { error: "Campos obrigatórios não preenchidos" },
         { status: 400 },
@@ -31,6 +51,7 @@ export async function POST(request: Request) {
 
     // esta api não tem pagamento implementado então não é necessário preencher os dados de pix ou cartao com algo real
     // verifica se a propriedade existe no banco de dados puxando o id do host e o preço por noite da propriedade
+
     const verifyProperty = await pool.query(
       "SELECT host_id, price_per_night, max_guests FROM airbnb.properties WHERE id = $1",
       [property_id],
@@ -41,7 +62,45 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+    
+    //verifica  se o cpf é uma string
+    if (typeof CPF !== "string")
+      return NextResponse.json(
+        { error: "Preencha um CPF válido" },
+        { status: 400 },
+      );
+   //tira os . e - do cpf
+    const cpf = CPF.replace(/\D/g, "");
+    //  verifica se o cpf é valido
+    function validarCPF(cpf: string): boolean {
 
+      if (cpf.length !== 11) return false;
+
+      // Rejeita CPFs com todos os dígitos iguais
+      if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+      // Valida os dois dígitos verificadores
+      for (let i = 9; i < 11; i++) {
+        let soma = 0;
+
+        for (let j = 0; j < i; j++) {
+          soma += Number(cpf[j]) * (i + 1 - j);
+        }
+
+        const resto = (soma * 10) % 11;
+        const digito = resto === 10 ? 0 : resto;
+        if (digito !== Number(cpf[i])) return false;
+      }
+
+      return true;
+    }
+    if (!validarCPF(cpf)) {
+      return NextResponse.json(
+        { error: "Preencha um CPF válido" },
+        { status: 400 },
+      );
+    }
+ 
     // garante que o host da propriedade não possa reservar sua propriedade
     if (verifyProperty.rows[0].host_id === userId) {
       return NextResponse.json(
@@ -50,7 +109,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // cria uma regex para validar se a data esta em tal formato
+    // cria uma regex para validar se a data esta no formato certo
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(check_in) || !dateRegex.test(check_out)) {
       return NextResponse.json(

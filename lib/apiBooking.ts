@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api/";
 
 export async function bookings(
   propertyId: number,
@@ -6,10 +6,13 @@ export async function bookings(
   checkOut: Date,
   paymentMethod: "pix" | "card",
   guests: number,
+  completeName: string,
+  CPF: string,
+  birthday: Date
   
 ) {
   try {
-    const res = await fetch(`${API_URL}/bookings`, {
+    const res = await fetch(`${API_URL}/bookigns`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

@@ -8,5 +8,5 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ["/profile/:path*", "/newProperty/:path*"],
+  matcher: ["/profile/:path*", "/newProperty/:path*", "/property/:id/payment:path*"],
 };

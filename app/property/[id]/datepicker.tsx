@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
-import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 import { useBookingDates } from "../../context/bookingContext";
 import {
@@ -32,7 +31,6 @@ export const DateCell = forwardRef<
 DateCell.displayName = "DateCell";
 //revisar
 export default function DatePickerPage({ propertyId }: DatePickerProps) {
-  const tomorrow = new Date(tomorrowInBrasilia());
   const [bookedDates, setBookedDates] = useState<Booking[]>([]);
   const { checkIn, checkOut, setCheckIn, setCheckOut } = useBookingDates();
   useEffect(() => {
