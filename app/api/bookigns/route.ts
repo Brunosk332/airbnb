@@ -25,9 +25,6 @@ export async function POST(request: Request) {
       check_out,
       paymentMethod,
       guests,
-      completeName,
-      CPF,
-      birthday,
     } = await request.json();
     await request.json();
     //transforma a const guest  em um numero
@@ -38,10 +35,7 @@ export async function POST(request: Request) {
       !check_in ||
       !check_out ||
       !paymentMethod ||
-      !guests ||
-      !completeName ||
-      !CPF ||
-      !birthday
+      !guests
     ) {
       return NextResponse.json(
         { error: "Campos obrigatórios não preenchidos" },
@@ -62,45 +56,6 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
-    
-    //verifica  se o cpf é uma string
-    if (typeof CPF !== "string")
-      return NextResponse.json(
-        { error: "Preencha um CPF válido" },
-        { status: 400 },
-      );
-   //tira os . e - do cpf
-    const cpf = CPF.replace(/\D/g, "");
-    //  verifica se o cpf é valido
-    function validarCPF(cpf: string): boolean {
-
-      if (cpf.length !== 11) return false;
-
-      // Rejeita CPFs com todos os dígitos iguais
-      if (/^(\d)\1{10}$/.test(cpf)) return false;
-
-      // Valida os dois dígitos verificadores
-      for (let i = 9; i < 11; i++) {
-        let soma = 0;
-
-        for (let j = 0; j < i; j++) {
-          soma += Number(cpf[j]) * (i + 1 - j);
-        }
-
-        const resto = (soma * 10) % 11;
-        const digito = resto === 10 ? 0 : resto;
-        if (digito !== Number(cpf[i])) return false;
-      }
-
-      return true;
-    }
-    if (!validarCPF(cpf)) {
-      return NextResponse.json(
-        { error: "Preencha um CPF válido" },
-        { status: 400 },
-      );
-    }
- 
     // garante que o host da propriedade não possa reservar sua propriedade
     if (verifyProperty.rows[0].host_id === userId) {
       return NextResponse.json(

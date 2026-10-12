@@ -1,5 +1,4 @@
 "use client";
-// posssível melhoria para o futuro: informações legais como noame cpf e data de nascimento ficarem atreladas ao usuário para ele não precisar preencher toda vez que for reservar uma propriedade
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { bookings } from "@/lib/apiBooking";
@@ -54,13 +53,13 @@ export default function PaymentForm({
   async function handlePayment(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-
+    // verifica se os campos obrigatórios estão preenchidos
     if (!completeName) {
       setError("Preencha o nome completo");
       return;
     }
     if  (!validarCPF(CPF)) {
-      setError("Preencha um CPF válido");
+      setError("Preencha um CPF");
       return;
     }
     if (!birthday) {
@@ -74,9 +73,6 @@ export default function PaymentForm({
       checkOut,
       paymentMethod,
       guests,
-      completeName,
-      CPF,
-      birthday,
     );
     if (result.success) {
       router.push("/success");

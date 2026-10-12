@@ -6,9 +6,6 @@ export async function bookings(
   checkOut: Date,
   paymentMethod: "pix" | "card",
   guests: number,
-  completeName: string,
-  CPF: string,
-  birthday: Date
   
 ) {
   try {
@@ -21,6 +18,7 @@ export async function bookings(
         checkIn: checkIn.toISOString(),
         checkOut: checkOut.toISOString(),
         paymentMethod,
+        guests,
       }),
     });
 
