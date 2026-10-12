@@ -25,7 +25,6 @@ export async function POST(request: Request) {
       paymentMethod,
       guests,
     } = await request.json();
-    await request.json();
     //transforma a const guest  em um numero
     const guestsNumber = Number(guests);
     // verifica se os campos obrigatórios não estão vazios
