@@ -51,7 +51,7 @@ export default function PaymentForm({
   //handler
   async function handlePayment(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
+
     // verifica se os campos obrigatórios estão preenchidos, eles não serão enviados para o backend, não é necessário você preencher com dados reais
     if (!completeName) {
       setError("Preencha o nome completo");
@@ -66,7 +66,9 @@ export default function PaymentForm({
       return;
     }
     // query
+    setLoading(true);
     const result = await bookings(
+
       property.id,
       checkIn,
       checkOut,
@@ -75,6 +77,10 @@ export default function PaymentForm({
     );
     if (result.success) {
       router.push("/success");
+      setLoading(false);
+    } else {
+      setError(result.message || "Erro ao reservar propriedade");
+      setLoading(false);
     }
   }
   //variaveis
@@ -221,9 +227,12 @@ export default function PaymentForm({
             {error && <span className="block w-full text-center mt-3 text-sm text-red-500">{error}</span>}
             <button
               type="submit"
-              className="w-full bg-black text-white rounded-lg py-3 mt-3 font-medium"
+              disabled={loading}
+              className={`w-full rounded-lg py-3 mt-6 font-medium text-white transition-colors ${
+                loading ? "bg-neutral-400 cursor-not-allowed" : "bg-black hover:bg-neutral-800"
+              }`}
             >
-              Próximo
+              {loading ? "Aguarde..." : "Próximo"}
             </button>
           </div>
 
