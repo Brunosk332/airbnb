@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { DatabaseError } from "pg";
-import { Verify } from "crypto";
 export async function POST(request: Request) {
   // cria uma variável com a data atual em UTC
   const CurrentDate = new Date();

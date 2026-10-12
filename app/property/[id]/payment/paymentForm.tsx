@@ -5,11 +5,9 @@ import { bookings } from "@/lib/apiBooking";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import DatePickerPage from "../datepicker";
-import { BookingDatesProvider } from "../../../context/bookingContext";
 import Link from "next/link";
 import { useBookingDates } from "../../../context/bookingContext";
-import { formatDate, todayInBrasilia } from "@/lib/dates";
-import { validarCPF } from "../../../components/validacpf/valida";
+import { todayInBrasilia } from "@/lib/dates";
 //interfaces
 interface PaymentFormProps {
   property: {
@@ -53,12 +51,12 @@ export default function PaymentForm({
   async function handlePayment(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    // verifica se os campos obrigatórios estão preenchidos
+    // verifica se os campos obrigatórios estão preenchidos, eles não serão enviados para o backend, não é necessário você preencher com dados reais
     if (!completeName) {
       setError("Preencha o nome completo");
       return;
     }
-    if  (!validarCPF(CPF)) {
+    if  (!CPF) {
       setError("Preencha um CPF");
       return;
     }
@@ -198,14 +196,16 @@ export default function PaymentForm({
                 className="w-full p-3 outline-none"
                 required
               />
+              <span>*Preencha com qualquer dado</span>
               <input
                 type="text"
                 value={CPF}
                 onChange={(e) => setCPF(e.target.value)}
-                placeholder="CPF"
+                placeholder="Digite seu CPF"
                 className="w-full p-3 outline-none"
                 required
               />
+              <span>*Preencha com qualquer dado</span>
               <DatePicker
                 className="w-full p-3 outline-none"
                 selected={birthday}
@@ -219,6 +219,7 @@ export default function PaymentForm({
                 yearDropdownItemNumber={115}
                 required
               />
+              <span>*Preencha com qualquer dado</span>
             </div>
 
             <button
