@@ -29,7 +29,6 @@ export const DateCell = forwardRef<
   </div>
 ));
 DateCell.displayName = "DateCell";
-//revisar
 export default function DatePickerPage({ propertyId }: DatePickerProps) {
   const [bookedDates, setBookedDates] = useState<Booking[]>([]);
   const { checkIn, checkOut, setCheckIn, setCheckOut } = useBookingDates();

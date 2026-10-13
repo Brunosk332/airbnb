@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
-import DatePickerPage from "./datepicker";
+import DatePickerPage from "../../components/datepicker/datepicker";
 import { useBookingDates } from "../../context/bookingContext";
 
 interface BookingProps {

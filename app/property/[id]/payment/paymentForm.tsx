@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { bookings } from "@/lib/apiBooking";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import DatePickerPage from "../datepicker";
+import DatePickerPage from "../../../components/datepicker/datepicker";
 import Image from "next/image";
 import Link from "next/link";
 import { useBookingDates } from "../../../context/bookingContext";
