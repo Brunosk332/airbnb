@@ -31,7 +31,7 @@ export default async function PropertyDetails({
 
   return (
     <div className="min-h-screen w-full bg-white">
-      <div className="bg-white max-w-[1200px] mx-auto">
+      <div className="bg-white max-w-300 mx-auto">
         <Header />
         {/* Título e ações */}
         <div className="flex justify-between items-center mb-4">
@@ -43,7 +43,7 @@ export default async function PropertyDetails({
         </div>
 
         {/* Galeria */}
-        <div className="grid grid-cols-4 grid-rows-2 gap-2 rounded-xl overflow-hidden h-[400px]">
+        <div className="grid grid-cols-4 grid-rows-2 gap-2 rounded-xl overflow-hidden h-100">
           <div className="col-span-2 row-span-2 relative">
             <Image src={gallery[0]} alt="" fill className="object-cover" />
           </div>

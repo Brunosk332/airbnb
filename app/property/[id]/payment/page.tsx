@@ -1,4 +1,3 @@
-import Booking from "../booking";
 import PaymentForm from "./paymentForm";
 import { BookingDatesProvider } from "../../../context/bookingContext";
 async function getProperty(id: string) {

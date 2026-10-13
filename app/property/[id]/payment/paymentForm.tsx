@@ -341,7 +341,7 @@ rounded-xl w-full mt-3"
               <div className="flex justify-center gap-8">
                 <button
                   type="button"
-                  onClick={(s) =>
+                  onClick={() =>
                     setGuests(Math.min(property.max_guests, guests + 1))
                   }
                   className="border-2 mt-4 block w-full rounded-xl py- px-5 border-neutral-300 text-md text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 focus:outline-none text-5xl"
@@ -350,7 +350,7 @@ rounded-xl w-full mt-3"
                 </button>
                 <button
                   type="button"
-                  onClick={(s) => setGuests(Math.max(1, guests - 1))}
+                  onClick={() => setGuests(Math.max(1, guests - 1))}
                   className="border-2 mt-4 
 block w-full rounded-xl py- px-5 border-neutral-300 text-md text-neutral-500 hover:border-neutral-400 
 focus:border-neutral-400 focus:outline-none text-5xl"

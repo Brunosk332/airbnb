@@ -1,6 +1,5 @@
 "use client";
-import { useState, useEffect, forwardRef } from "react";
-import DatePicker from "react-datepicker";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePickerPage from "./datepicker";
@@ -16,25 +15,13 @@ interface Booking {
 
 //revisar
 export default function Booking({ property }: BookingProps) {
-  const [bookedDates, setBookedDates] = useState<Booking[]>([]);
+
   const [guests, setGuests] = useState<number>(1);
   const [guestsMenu, setGuestsMenu] = useState(false);
   const { checkIn: contextIn, checkOut: contextOut} =  useBookingDates();
   const checkIn = contextIn;
   const checkOut = contextOut
   const router = useRouter();
-  useEffect(() => {
-    async function fetchAvailability() {
-      const res = await fetch(`/api/properties/${property.id}/availability`);
-      if (!res.ok) {
-        console.error("Failed to fetch availability");
-        return;
-      }
-      const data = await res.json();
-      setBookedDates(data);
-    }
-    fetchAvailability();
-  }, [property.id]);
 
   function handleBooking() {
     if (!checkIn || !checkOut) return;
@@ -87,7 +74,7 @@ text-neutral-700 hover:border-neutral-400 focus:border-neutral-400 focus:outline
             <div className="flex justify-center gap-8">
               <button
                 type="button"
-                onClick={(s) => setGuests(Math.min(property.max_guests, guests + 1))}
+                onClick={() => setGuests(Math.min(property.max_guests, guests + 1))}
                 className="border-2 mt-4 block w-full rounded-xl py- px-5 border-neutral-300 text-md 
 text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 focus:outline-none text-5xl"
               >
@@ -95,7 +82,7 @@ text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 focus:outline
               </button>
               <button
                 type="button"
-                onClick={(s) => setGuests(Math.max(1, guests - 1))}
+                onClick={() => setGuests(Math.max(1, guests - 1))}
                 className="border-2 mt-4 
 block w-full rounded-xl py- px-5 border-neutral-300 text-md text-neutral-500 hover:border-neutral-400 
 focus:border-neutral-400 focus:outline-none text-5xl"

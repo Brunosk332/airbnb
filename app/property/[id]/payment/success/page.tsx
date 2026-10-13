@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 export default function SuccessPage() {
   const searchParams = useSearchParams();
@@ -91,7 +92,7 @@ export default function SuccessPage() {
             </h2>
 
             {propertyImage && (
-              <img
+              <Image
                 src={propertyImage}
                 alt={propertyName || "Imagem da propriedade"}
                 className="mb-4 h-56 w-full rounded-lg object-cover"
