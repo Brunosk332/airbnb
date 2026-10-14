@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { DatabaseError } from "pg";
+import { todayInBrasilia } from "@/lib/dates";
 export async function POST(request: Request) {
   // cria uma variável com a data atual em UTC
-  const CurrentDate = new Date();
-  CurrentDate.setUTCHours(0, 0, 0, 0);
+  const CurrentDate = todayInBrasilia()
   try {
     // verifica se o usuario  está logado
     const session = await getSessionUser();
@@ -24,9 +24,11 @@ export async function POST(request: Request) {
       paymentMethod,
       guests,
     } = await request.json();
+    
     //transforma a const guest  em um numero
     const guestsNumber = Number(guests);
     // verifica se os campos obrigatórios não estão vazios
+    
     if (
       !property_id ||
       !check_in ||
@@ -40,10 +42,9 @@ export async function POST(request: Request) {
       );
     }
     
-
     // esta api não tem pagamento implementado então não é necessário preencher os dados de pix ou cartao com algo real
-    // verifica se a propriedade existe no banco de dados puxando o id do host e o preço por noite da propriedade
 
+    // verifica se a propriedade existe no banco de dados puxando o id do host e o preço por noite da propriedade
     const verifyProperty = await pool.query(
       "SELECT host_id, price_per_night, max_guests FROM airbnb.properties WHERE id = $1",
       [property_id],
