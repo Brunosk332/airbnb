@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { bookings } from "@/lib/apiBooking";
 import "react-datepicker/dist/react-datepicker.css";
@@ -49,9 +49,10 @@ export default function PaymentForm({
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [error, setError] = useState("");
   //handler
+  const submitting = useRef(false);
   async function handlePayment(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-
+    if (submitting.current) return;
     // verifica se os campos obrigatórios estão preenchidos, eles não serão enviados para o backend, não é necessário você preencher com dados reais
     if (!completeName) {
       setError("Preencha o nome completo");
@@ -65,8 +66,10 @@ export default function PaymentForm({
       setError("Preencha a data de nascimento");
       return;
     }
-    // query
+    // coloca um cool-down no botão de envio para evitar múltiplos cliques
+    submitting.current = true;
     setLoading(true);
+
     const result = await bookings(
       property.id,
       checkIn,
@@ -74,11 +77,13 @@ export default function PaymentForm({
       paymentMethod,
       guests,
     );
+
     if (result.success) {
       router.push("/success");
-      setLoading(false);
+
     } else {
       setError(result.message || "Erro ao reservar propriedade");
+      submitting.current = false;
       setLoading(false);
     }
   }
