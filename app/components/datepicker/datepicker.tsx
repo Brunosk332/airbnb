@@ -3,12 +3,10 @@ import { useState, useEffect, forwardRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useBookingDates } from "../../context/bookingContext";
-import {
-  addDays,
-  tomorrowInBrasilia,
-  formatDate,
-} from "@/lib/dates";
+import { addDays, tomorrowInBrasilia, formatDate } from "@/lib/dates";
+import { ptBR } from "date-fns/locale";
 
+// typess
 interface DatePickerProps {
   propertyId: string | number;
   checkIn: Date | null;
@@ -18,7 +16,8 @@ interface Booking {
   check_in: string;
   check_out: string;
 }
-// partee onde aparecem as datas
+
+// Datecell: componente que mostra a data selecionada pelo usuáario
 export const DateCell = forwardRef<
   HTMLDivElement,
   { label: string; value?: string; onClick?: () => void }
@@ -29,9 +28,15 @@ export const DateCell = forwardRef<
   </div>
 ));
 DateCell.displayName = "DateCell";
+
+// page
 export default function DatePickerPage({ propertyId }: DatePickerProps) {
+
+  // hooks
   const [bookedDates, setBookedDates] = useState<Booking[]>([]);
   const { checkIn, checkOut, setCheckIn, setCheckOut } = useBookingDates();
+
+  // busca as datas disponíveis para o usuário
   useEffect(() => {
     async function fetchAvailability() {
       const res = await fetch(`/api/properties/${propertyId}/availability`);
@@ -44,12 +49,14 @@ export default function DatePickerPage({ propertyId }: DatePickerProps) {
     }
     fetchAvailability();
   }, [propertyId]);
-  // datas que estarao bloqueadas para o usuario, já reservadas
+
+  // datas que estarão bloqueadas para o usuário
   const excludedIntervals = bookedDates.map((booking) => ({
     start: new Date(booking.check_in),
     end: new Date(booking.check_out),
   }));
 
+  // handler
   function handleCheckIn(date: Date | null) {
     setCheckIn(date);
     console.log("handle checkin");
@@ -63,14 +70,14 @@ export default function DatePickerPage({ propertyId }: DatePickerProps) {
     }
     setCheckIn(date);
   }
-  console.log("Amanhã:", tomorrowInBrasilia());
-console.log("Timestamp:", tomorrowInBrasilia().getTime());
+
+  // JSX
   return (
     <div className="grid grid-cols-2 divide-x">
       <DatePicker
         selected={checkIn}
         onChange={(date: Date | null) => {
-            handleCheckIn(date);
+          handleCheckIn(date);
         }}
         excludeDateIntervals={excludedIntervals}
         minDate={new Date(tomorrowInBrasilia())}
@@ -79,12 +86,12 @@ console.log("Timestamp:", tomorrowInBrasilia().getTime());
       />
       <DatePicker
         selected={checkOut}
-        onChange={
-          (date: Date | null) => {
+        onChange={(date: Date | null) => {
           setCheckOut(date);
         }}
         excludeDateIntervals={excludedIntervals}
         dateFormat="dd/MM/yyyy"
+        locale={ptBR}
         minDate={checkIn ? addDays(checkIn, 1) : tomorrowInBrasilia()}
         customInput={
           <DateCell label="CHECK-OUT" value={formatDate(checkOut)} />
