@@ -1,4 +1,3 @@
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api";
 
 function toAPIDate(date: Date): string {
@@ -31,11 +30,14 @@ export async function bookings(
       }),
     });
 
-    if (!res.ok) return { success: false };
+    if (!res.ok) {
+      const err = await res.json().catch(() =>({}));
+      return { success: false, message: err.error ?? err.message };
+    }
 
     const data = await res.json();
-    return { success: true, ...data };
+    return {...data,  success: true };
   } catch {
     return { success: false };
   }
-}
+} 
