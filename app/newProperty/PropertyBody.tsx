@@ -19,10 +19,6 @@ export default function PropertyBody() {
   const router = useRouter();
   const { newProperty } = useAuth();
   // Imagens da propriedade //
-  interface ImageWithCategory {
-    file: File;
-    category: string;
-  }
   
   const [images, setImages] = useState<Record<string, File | null>>({
     CoverImage: null,
@@ -399,10 +395,11 @@ export default function PropertyBody() {
               </div>
             </div>
           </div>
+          {error && <span className="block w-full text-center mt-3 text-sm text-red-500">{error}</span>}
           {/* SUBMIT */}
           <button
             type="submit"
-            className="bg-neutral-800 text-white font-bold rounded-lg p-4 hover:bg-neutral-700"
+            className="bg-neutral-800 text-white font-bold rounded-lg p-4 hover:bg-neutral-700 mb-30 mt-10"
           >
             Publicar propriedade
           </button>

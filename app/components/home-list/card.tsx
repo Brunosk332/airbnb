@@ -16,7 +16,7 @@ export default function Card({ property }: { property: Property }) {
                 />
             </div>
             <div className="mt-2">
-                <h3 className="font-medium text-sm truncate font-semibold text-neutral-900">
+                <h3 className="text-sm truncate font-semibold text-neutral-900">
                     {property.type} · {property.location}
                 </h3>
                 <p className="text-sm text-neutral-800 truncate">{property.period}</p>
