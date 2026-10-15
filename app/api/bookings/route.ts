@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 import { DatabaseError } from "pg";
-import { todayInBrasilia } from "@/lib/dates";
+import { todayInBrasilia, tomorrowInBrasilia } from "@/lib/dates";
 export async function POST(request: Request) {
   // cria uma variável com a data atual em UTC
   const CurrentDate = todayInBrasilia()
@@ -57,12 +57,12 @@ export async function POST(request: Request) {
     }
 
     // garante que o host da propriedade não possa reservar sua propriedade
-    if (verifyProperty.rows[0].host_id === guestId) {
-      return NextResponse.json(
-        { error: "Você não pode reservar esta propriedade" },
-        { status: 400 },
-      );
-    }
+ //   if (verifyProperty.rows[0].host_id === guestId) {
+ //     return NextResponse.json(
+ //       { error: "Você não pode reservar esta propriedade" },
+ //       { status: 400 },
+ //     );
+ //   }
 
     // cria uma regex para validar se a data esta no formato certo
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
@@ -91,8 +91,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Data inválida" }, { status: 400 });
     }
     // transforma a data em um objeto date em UTC formato timestamp
-    const checkIn = new Date(`${check_in}T00:00:00Z`);
-    const checkOut = new Date(`${check_out}T00:00:00Z`);
+    const checkIn = new Date(`${check_in}T00:00:00-03:00`);
+    const checkOut = new Date(`${check_out}T00:00:00-03:00`);
     // se checkin for maior ou igual a checkout retorna erro
     if (checkIn >= checkOut) {
       return NextResponse.json(
@@ -101,8 +101,10 @@ export async function POST(request: Request) {
       );
     }
     // cria um objeto date com a data do dia seguinte para garantiur que o usuario tenha reservado com pelo menos 1 dia de antecedência
-    const NextDay = new Date(CurrentDate);
-    NextDay.setUTCDate(NextDay.getUTCDate() + 1);
+    const NextDay = tomorrowInBrasilia();
+    console.log("today", CurrentDate)
+    console.log("NextDay",NextDay);
+    console.log("checkIn",checkIn);
     if (checkIn < NextDay) {
       return NextResponse.json(
         { error: "Você precisa reservar com pelo menos 1 dia de antecedência" },
