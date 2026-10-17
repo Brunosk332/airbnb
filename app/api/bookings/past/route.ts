@@ -3,9 +3,11 @@ import pool from "@/lib/db";
 import { cookies } from "next/headers";
 
 export async function GET() {
+  // pega o token da sessão do usuário
     const cookieStore = await cookies();
     const sessionToken = cookieStore.get("sessionToken")?.value
   try {
+    // busca as propriedades que o usuário já reservou anteriormente 
     const result = await pool.query(
         `SELECT bookings.id,
                 bookings.property_id,
@@ -14,6 +16,7 @@ export async function GET() {
                 bookings.total_price,
                 bookings.guests,
                 bookings.payment_method,
+                bookings.guest_id,
                 properties.type,
                 properties.location,
                 properties.rating,
@@ -25,6 +28,7 @@ export async function GET() {
                                 AND images.category = 'cover'
          WHERE sessions.session_token = $1
            AND bookings.status = 'confirmed'
+           AND bookings.check_out <= CURRENT_DATE
          ORDER BY bookings.check_in DESC`,
         [sessionToken]
       );
@@ -37,5 +41,3 @@ export async function GET() {
     );
   }
 }
-//airbnb.bookings.status = 'confirmed' AND airbnb.bookings.
-//check_out <= CURRENT_DATE AND airbnb.sessions.session_token = $1", 
