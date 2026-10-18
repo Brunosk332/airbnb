@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
+import PastBookings from "./pastBookings";
 
 type Tab = "sobre" | "viagens" | "conexoes";
 
@@ -19,9 +20,9 @@ export default function ProfileTabs() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-5xl mx-auto px-4 py-10 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-4xl w-full mx-auto px-4 py-10 gap-8">
       {/* Sidebar */}
-      <div>
+      <div className="md:sticky md:top-24 md:self-start">
         <h1 className="text-3xl font-semibold mb-6">Perfil</h1>
         <nav className="flex flex-col gap-1">
           {tabs.map((tab) => (
@@ -34,7 +35,7 @@ export default function ProfileTabs() {
             >
               {tab.id === "sobre" ? (
                 <span className="w-8 h-8 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-semibold">
-                  {initial}
+                    {initial}
                 </span>
               ) : (
                 <span className="text-xl">{tab.icon}</span>
@@ -56,6 +57,7 @@ export default function ProfileTabs() {
 }
 
 function SobreMim({ initial, name }: { initial: string; name?: string }) {
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -98,22 +100,21 @@ function SobreMim({ initial, name }: { initial: string; name?: string }) {
 
 function ViagensAnteriores() {
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-8">Viagens</h2>
-      <div className="flex flex-col items-center text-center max-w-sm mx-auto mt-12">
-        <div className="relative w-48 h-48 mb-6">
-          <Image src="https://picsum.photos/300/300?random=50" alt="" fill className="object-contain" />
-        </div>
-        <h3 className="text-xl font-bold mb-2">Planeje sua próxima viagem</h3>
-        <p className="text-neutral-600 mb-6">
-          Depois de reservar uma viagem, experiência ou serviço, volte aqui
-          para conferir os detalhes, explorar o mapa e marcar lugares para visitar.
-        </p>
-        <button className="bg-pink-600 text-white rounded-lg px-6 py-3 font-semibold hover:bg-pink-700 transition-colors">
-          Comece já
-        </button>
-      </div>
-    </div>
+      <PastBookings />
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   );
 }
 
