@@ -19,7 +19,7 @@ interface Booking {
 export default function PastBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-
+//  fetch que retorna as viagens anteriores
   useEffect(() => {
     async function fetchBookings() {
       try {
@@ -32,10 +32,11 @@ export default function PastBookings() {
     }
     fetchBookings();
   }, []);
-
+  // se estiver carregando exibe o loading
   if (loading) {
     return <div>Carregando...</div>;
   }
+  // se não tiver reservas, exibe que não foram feito reservas ainda
   if (bookings.length === 0) {
     return (
       <div>
@@ -65,6 +66,7 @@ transition-colors"
       </div>
     );
   }
+  // se tiver reservas, exibe as viagens anteriores
   return (
     <div>
   <h1 className="text-2xl font-semibold mb-6">Viagens</h1>
@@ -74,7 +76,7 @@ transition-colors"
       key={booking.id}
       className="grid grid-cols-[128px_1fr_1fr_auto] items-start gap-6 rounded-xl border border-neutral-200 p-4 mb-4"
     >
-      {/* imagem */}
+      {/* imagem de capa */}
       {booking.cover && (
         <Image
           src={booking.cover}
@@ -85,24 +87,25 @@ transition-colors"
         />
       )}
 
-      {/* tipo, localização, estrelas */}
+      {/* tipo, localização e estrelas */}
       <div className="flex flex-col gap-1">
         <p className="text-lg font-semibold">{booking.type}</p>
         <p className="text-neutral-600">{booking.location}</p>
         <p className="text-neutral-600">{booking.rating} estrelas</p>
       </div>
 
-      {/* check-in, check-out, hóspedes */}
+      {/* check-in, check-out e hóspedes */}
       <div className="flex flex-col gap-1">
         <p className="text-neutral-600">Check-in: {booking.check_in}</p>
-        <p className="text-neutral-600">Check-out: {booking.check_out}</p>
+        <p className="text-neutral-00">Check-out: {booking.check_out}</p>
         <p className="text-neutral-600">Hóspedes: {booking.guests}</p>
       </div>
 
-      {/* preço e pagamento */}
+      {/* preço, pagamento  e id*/}
       <div className="flex flex-col gap-1">
         <p className="font-semibold">R$ {booking.total_price}</p>
         <p className="text-neutral-600">{booking.payment_method}</p>
+        <p className="text-neutral-600">ID: {booking.property_id}</p>
       </div>
     </div>
   ))}

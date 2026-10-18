@@ -1,24 +1,26 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
 import PastBookings from "./pastBookings";
 
+// types
 type Tab = "sobre" | "viagens" | "conexoes";
 
+// page
 export default function ProfileTabs() {
   const [activeTab, setActiveTab] = useState<Tab>("sobre");
   const { user } = useAuth();
-
+  // inicial do nome do usuário
   const initial = user?.name?.charAt(0).toUpperCase() ?? "?";
-
+  // abas de navegação
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: "sobre", label: "Sobre mim", icon: "👤" },
     { id: "viagens", label: "Viagens anteriores", icon: "🧳" },
     { id: "conexoes", label: "Conexões", icon: "👥" },
   ];
 
+// seção de navegação
   return (
     <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-4xl w-full mx-auto px-4 py-10 gap-8">
       {/* Sidebar */}
@@ -55,7 +57,7 @@ export default function ProfileTabs() {
     </div>
   );
 }
-
+// perfil do usuário
 function SobreMim({ initial, name }: { initial: string; name?: string }) {
 
   return (
@@ -97,27 +99,13 @@ function SobreMim({ initial, name }: { initial: string; name?: string }) {
     </div>
   );
 }
-
+// viagens anteriores
 function ViagensAnteriores() {
   return (
       <PastBookings />
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
   );
 }
-
+// conexões / amigos 
 function Conexoes() {
   return (
     <div>
