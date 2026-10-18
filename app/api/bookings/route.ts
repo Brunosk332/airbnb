@@ -57,12 +57,12 @@ export async function POST(request: Request) {
     }
 
     // garante que o host da propriedade não possa reservar sua propriedade
- //   if (verifyProperty.rows[0].host_id === guestId) {
- //     return NextResponse.json(
- //       { error: "Você não pode reservar esta propriedade" },
- //       { status: 400 },
- //     );
- //   }
+    if (verifyProperty.rows[0].host_id === guestId) {
+      return NextResponse.json(
+        { error: "Você não pode reservar esta propriedade" },
+        { status: 400 },
+      );
+    }
 
     // cria uma regex para validar se a data esta no formato certo
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
