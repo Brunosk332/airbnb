@@ -3,21 +3,23 @@ import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
 import PastBookings from "./pastBookings";
-
+import Bookings from "./bookings";
 // types
-type Tab = "sobre" | "viagens" | "conexoes";
+type Tab = "aboutMe" | "bookings" | "pastBookings" | "conections";
 
 // page
 export default function ProfileTabs() {
-  const [activeTab, setActiveTab] = useState<Tab>("sobre");
+  const [activeTab, setActiveTab] = useState<Tab>("aboutMe");
   const { user } = useAuth();
   // inicial do nome do usuário
   const initial = user?.name?.charAt(0).toUpperCase() ?? "?";
   // abas de navegação
   const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: "sobre", label: "Sobre mim", icon: "👤" },
-    { id: "viagens", label: "Viagens anteriores", icon: "🧳" },
-    { id: "conexoes", label: "Conexões", icon: "👥" },
+    { id: "aboutMe", label: "Sobre mim", icon: "" },
+    { id: "bookings", label: "Viagens", icon: "📝" },
+    { id: "pastBookings", label: "Viagens anteriores", icon: "🧳" },
+    { id: "conections", label: "Conexões", icon: "👥" },
+
   ];
 
 // seção de navegação
@@ -35,7 +37,7 @@ export default function ProfileTabs() {
                 activeTab === tab.id ? "bg-neutral-100" : "hover:bg-neutral-50"
               }`}
             >
-              {tab.id === "sobre" ? (
+              {tab.id === "aboutMe" ? (
                 <span className="w-8 h-8 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-semibold">
                     {initial}
                 </span>
@@ -50,15 +52,16 @@ export default function ProfileTabs() {
 
       {/* Conteúdo */}
       <div>
-        {activeTab === "sobre" && <SobreMim initial={initial} name={user?.name} />}
-        {activeTab === "viagens" && <ViagensAnteriores />}
-        {activeTab === "conexoes" && <Conexoes />}
+        {activeTab === "aboutMe" && <AboutMeTab initial={initial} name={user?.name} />}
+        {activeTab === "bookings" && <BookingsTab />}
+        {activeTab === "pastBookings" && <PastBookingsTab />}
+        {activeTab === "conections" && <ConectionsTab />}
       </div>
     </div>
   );
 }
 // perfil do usuário
-function SobreMim({ initial, name }: { initial: string; name?: string }) {
+function AboutMeTab({ initial, name }: { initial: string; name?: string }) {
 
   return (
     <div>
@@ -99,14 +102,20 @@ function SobreMim({ initial, name }: { initial: string; name?: string }) {
     </div>
   );
 }
+function BookingsTab() {
+  return (
+      <Bookings />
+  );
+}
+
 // viagens anteriores
-function ViagensAnteriores() {
+function PastBookingsTab() {
   return (
       <PastBookings />
   );
 }
 // conexões / amigos 
-function Conexoes() {
+function ConectionsTab() {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-8">Conexões</h2>
