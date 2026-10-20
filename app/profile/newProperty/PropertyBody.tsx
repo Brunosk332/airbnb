@@ -257,7 +257,7 @@ export default function PropertyBody() {
 
           {/* BEDS */}
           <div>
-            <label htmlFor="bedrooms" className="text-xl font-bold">
+            <label htmlFor="beds" className="text-xl font-bold">
               Camas
             </label>
 
@@ -401,6 +401,7 @@ export default function PropertyBody() {
                 <p className="text-2xl">Imagem de capa</p>
                 <input
                   type="file"
+                  accept="image/jpeg, image/png, image/webp"
                   name="CoverImage"
                   className="font-semibold rounded-lg p-2 text-sm ml-5 bg-neutral-100"
                   onChange={(e) => handleImageChange("CoverImage", e)}
@@ -411,6 +412,7 @@ export default function PropertyBody() {
                 <p className="text-2xl">Imagem do quarto</p>
                 <input
                   type="file"
+                  accept="image/jpeg, image/png, image/webp"
                   name="BedroomImage"
                   className="font-semibold rounded-lg p-2 text-sm ml-5 bg-neutral-100"
                   onChange={(e) => handleImageChange("BedroomImage", e)}
@@ -421,6 +423,7 @@ export default function PropertyBody() {
                 <p className="text-2xl">Imagem do banheiro</p>
                 <input
                   type="file"
+                  accept="image/jpeg, image/png, image/webp"
                   name="BathroomImage"
                   className="font-semibold rounded-lg p-2 text-sm ml-5 bg-neutral-100"
                   onChange={(e) => handleImageChange("BathroomImage", e)}
@@ -431,6 +434,7 @@ export default function PropertyBody() {
                 <p className="text-2xl">Imagem da cozinha</p>
                 <input
                   type="file"
+                  accept="image/jpeg, image/png, image/webp"
                   name="KitchenImage"
                   className="font-semibold rounded-lg p-2 text-sm ml-5 bg-neutral-100"
                   onChange={(e) => handleImageChange("KitchenImage", e)}
@@ -441,6 +445,7 @@ export default function PropertyBody() {
                 <p className="text-2xl">Imagem da sala</p>
                 <input
                   type="file"
+                  accept="image/jpeg, image/png, image/webp"
                   name="LivingRoomImage"
                   className="font-semibold rounded-lg p-2 text-sm ml-5 bg-neutral-100"
                   onChange={(e) => handleImageChange("LivingRoomImage", e)}
@@ -451,6 +456,7 @@ export default function PropertyBody() {
                 <p className="text-2xl">Imagem externa</p>
                 <input
                   type="file"
+                  accept="image/jpeg, image/png, image/webp"
                   name="ExteriorImage"
                   className="font-semibold rounded-lg p-2 text-sm ml-5 bg-neutral-100"
                   onChange={(e) => handleImageChange("ExteriorImage", e)}
