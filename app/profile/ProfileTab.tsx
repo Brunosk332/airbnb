@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
 import PastBookings from "./pastBookings";
 import Bookings from "./bookings";
+import PropertyBody from "./newProperty/PropertyBody";
 // types
-type Tab = "aboutMe" | "bookings" | "pastBookings" | "conections";
+type Tab = "aboutMe" | "bookings" | "pastBookings" | "connections" | "newProperty";
 
 // page
 export default function ProfileTabs() {
@@ -18,7 +19,8 @@ export default function ProfileTabs() {
     { id: "aboutMe", label: "Sobre mim", icon: "" },
     { id: "bookings", label: "Viagens", icon: "📝" },
     { id: "pastBookings", label: "Viagens anteriores", icon: "🧳" },
-    { id: "conections", label: "Conexões", icon: "👥" },
+    { id: "connections", label: "Conexões", icon: "👥" },
+    { id: "newProperty", label: "Nova propriedade", icon: "➕"}
 
   ];
 
@@ -55,7 +57,8 @@ export default function ProfileTabs() {
         {activeTab === "aboutMe" && <AboutMeTab initial={initial} name={user?.name} />}
         {activeTab === "bookings" && <BookingsTab />}
         {activeTab === "pastBookings" && <PastBookingsTab />}
-        {activeTab === "conections" && <ConectionsTab />}
+        {activeTab === "connections" && <ConectionsTab />}
+        {activeTab === "newProperty" && <NewPropertyTab />}
       </div>
     </div>
   );
@@ -134,4 +137,11 @@ function ConectionsTab() {
       </div>
     </div>
   );
+}
+function NewPropertyTab() {
+  return (
+    <div>
+< PropertyBody />
+    </div>
+  )
 }

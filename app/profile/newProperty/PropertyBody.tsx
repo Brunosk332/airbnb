@@ -1,9 +1,12 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+import { resizeImage } from "@/lib/resizeImages";
 export default function PropertyBody() {
+
+  // hooks
   const [propertyType, setPropertyType] = useState("");
   const [location, setLocation] = useState("");
   const [pricePerNight, setPricePerNight] = useState("");
@@ -18,8 +21,11 @@ export default function PropertyBody() {
   const [error, setError] = useState("");
   const router = useRouter();
   const { newProperty } = useAuth();
-  // Imagens da propriedade //
-  
+  const [status, setStatus] = useState<"loading" | "host" | "error">("loading");
+  const [loading, setLoading] = useState(false);
+  const submittingRef = useRef(false);
+
+  // Imagens da propriedade 
   const [images, setImages] = useState<Record<string, File | null>>({
     CoverImage: null,
     BedroomImage: null,
@@ -28,25 +34,78 @@ export default function PropertyBody() {
     LivingRoomImage: null,
     ExteriorImage: null,
   });
-  function handleImageChange(
+
+// verifica se o usuário é host 
+  useEffect(() => {
+    async function checkHost() {
+      try {
+        const res = await fetch("/api/checkHost");
+
+        if (res.status === 401) {
+          router.replace("/login");
+
+          return;
+        }
+        if (!res.ok) {
+          setStatus("error");
+          return;
+        }
+        const data = await res.json();
+        if (!data.isHost) {
+          router.replace("/becomeAnHost");
+          return;
+        }
+
+        setStatus("host");
+      } catch {
+        setStatus("error");
+      }
+    }
+    checkHost();
+  }, [router]);
+
+  if (status === "loading") return <p>Carregando...</p>;
+  if (status === "error") {
+    return <p className="text-red-600">Não foi possível verificar sua conta.</p>;
+  }
+  // handler de imagens, valida se o arquivo é uma imagem
+  async function handleImageChange(
     category: string,
     e: React.ChangeEvent<HTMLInputElement>,
   ) {
-    const file = e.target.files?.[0] ?? null;
-        // Validar se o arquivo é uma imagem
-    if( file && !file.type.startsWith("image/")) {
+    const originalImages = e.target.files?.[0] ?? null;
+    if (!originalImages) return;
+
+    // Valida se o arquivo é uma imagem
+    if(!originalImages.type.startsWith("image/")) {
       setError("Por favor, envie apenas arquivos de imagem");
+      setImages((prev) => ({ ...prev, [category]: null }));
+      e.target.value = "";
       return;
     }
-    setImages((prev) => ({ ...prev, [category]: file }));
+    setImages((prev) => ({ ...prev, [category]: originalImages }));
 
+    try {
+      setError("");
+      const resizedImages = await resizeImage(originalImages);
+      setImages((prev) => ({ ...prev, [category]: resizedImages }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao processar a imagem");
+      setImages((prev) => ({ ...prev, [category]: null }));
+      e.target.value = "";
+    }
   }
 
+  // handler de submit do formulário
   async function handlePropertySubmit(
     e: React.SyntheticEvent<HTMLFormElement>,
+    
   ) {
-
     e.preventDefault();
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    setLoading(true);
+    // cria um FormData com os dados do formulário
     const formData = new FormData();
     formData.append("propertyType", propertyType);
     formData.append("location", location);
@@ -68,8 +127,12 @@ export default function PropertyBody() {
       router.push("/success");
     } else {
       setError(result.message || "não foi possível postar a propriedade");
+      submittingRef.current = false;
+      setLoading(false);
     }
   }
+
+  // JSX
   return (
     <div className="text-neutral-600">
       <div className="flex flex-col items-center text-center max-w-7xl mx-auto border-4 border-neutral-600 shadow-sm">
@@ -399,9 +462,11 @@ export default function PropertyBody() {
           {/* SUBMIT */}
           <button
             type="submit"
+            disabled={loading}
+
             className="bg-neutral-800 text-white font-bold rounded-lg p-4 hover:bg-neutral-700 mb-30 mt-10"
           >
-            Publicar propriedade
+             {loading ? "Publicando..." : "Publicar"}
           </button>
         </form>
       </div>
