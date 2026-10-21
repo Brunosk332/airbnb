@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 interface RoomProps {
   title: string;
   photo: string;
@@ -12,7 +11,7 @@ interface RoomProps {
 export function Room({ title, photo, period, totalPrice, rating }: RoomProps) {
   return (
     <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
-      <img src={photo} alt={title} className="w-full h-48 object-cover" />
+      <Image src={photo} alt={title} className="w-full h-48 object-cover" />
 
       <div className="p-4">
         <div className="flex justify-between items-start">

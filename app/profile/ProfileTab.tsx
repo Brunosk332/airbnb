@@ -1,27 +1,34 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../context/AuthContext";
+import PastBookings from "./pastBookings";
+import Bookings from "./bookings";
+import PropertyBody from "./newProperty/PropertyBody";
+// types
+type Tab = "aboutMe" | "bookings" | "pastBookings" | "connections" | "newProperty";
 
-type Tab = "sobre" | "viagens" | "conexoes";
-
+// page
 export default function ProfileTabs() {
-  const [activeTab, setActiveTab] = useState<Tab>("sobre");
+  const [activeTab, setActiveTab] = useState<Tab>("aboutMe");
   const { user } = useAuth();
-
+  // inicial do nome do usuário
   const initial = user?.name?.charAt(0).toUpperCase() ?? "?";
-
+  // abas de navegação
   const tabs: { id: Tab; label: string; icon: string }[] = [
-    { id: "sobre", label: "Sobre mim", icon: "👤" },
-    { id: "viagens", label: "Viagens anteriores", icon: "🧳" },
-    { id: "conexoes", label: "Conexões", icon: "👥" },
+    { id: "aboutMe", label: "Sobre mim", icon: "" },
+    { id: "bookings", label: "Viagens", icon: "📝" },
+    { id: "pastBookings", label: "Viagens anteriores", icon: "🧳" },
+    { id: "connections", label: "Conexões", icon: "👥" },
+    { id: "newProperty", label: "Nova propriedade", icon: "➕"}
+
   ];
 
+// seção de navegação
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-5xl mx-auto px-4 py-10 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-4xl w-full mx-auto px-4 py-10 gap-8">
       {/* Sidebar */}
-      <div>
+      <div className="md:sticky md:top-24 md:self-start">
         <h1 className="text-3xl font-semibold mb-6">Perfil</h1>
         <nav className="flex flex-col gap-1">
           {tabs.map((tab) => (
@@ -32,9 +39,9 @@ export default function ProfileTabs() {
                 activeTab === tab.id ? "bg-neutral-100" : "hover:bg-neutral-50"
               }`}
             >
-              {tab.id === "sobre" ? (
+              {tab.id === "aboutMe" ? (
                 <span className="w-8 h-8 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-semibold">
-                  {initial}
+                    {initial}
                 </span>
               ) : (
                 <span className="text-xl">{tab.icon}</span>
@@ -47,15 +54,18 @@ export default function ProfileTabs() {
 
       {/* Conteúdo */}
       <div>
-        {activeTab === "sobre" && <SobreMim initial={initial} name={user?.name} />}
-        {activeTab === "viagens" && <ViagensAnteriores />}
-        {activeTab === "conexoes" && <Conexoes />}
+        {activeTab === "aboutMe" && <AboutMeTab initial={initial} name={user?.name} />}
+        {activeTab === "bookings" && <BookingsTab />}
+        {activeTab === "pastBookings" && <PastBookingsTab />}
+        {activeTab === "connections" && <ConectionsTab />}
+        {activeTab === "newProperty" && <NewPropertyTab />}
       </div>
     </div>
   );
 }
+// perfil do usuário
+function AboutMeTab({ initial, name }: { initial: string; name?: string }) {
 
-function SobreMim({ initial, name }: { initial: string; name?: string }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -95,29 +105,20 @@ function SobreMim({ initial, name }: { initial: string; name?: string }) {
     </div>
   );
 }
-
-function ViagensAnteriores() {
+function BookingsTab() {
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-8">Viagens</h2>
-      <div className="flex flex-col items-center text-center max-w-sm mx-auto mt-12">
-        <div className="relative w-48 h-48 mb-6">
-          <Image src="https://picsum.photos/300/300?random=50" alt="" fill className="object-contain" />
-        </div>
-        <h3 className="text-xl font-bold mb-2">Planeje sua próxima viagem</h3>
-        <p className="text-neutral-600 mb-6">
-          Depois de reservar uma viagem, experiência ou serviço, volte aqui
-          para conferir os detalhes, explorar o mapa e marcar lugares para visitar.
-        </p>
-        <button className="bg-pink-600 text-white rounded-lg px-6 py-3 font-semibold hover:bg-pink-700 transition-colors">
-          Comece já
-        </button>
-      </div>
-    </div>
+      <Bookings />
   );
 }
 
-function Conexoes() {
+// viagens anteriores
+function PastBookingsTab() {
+  return (
+      <PastBookings />
+  );
+}
+// conexões / amigos 
+function ConectionsTab() {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-8">Conexões</h2>
@@ -136,4 +137,11 @@ function Conexoes() {
       </div>
     </div>
   );
+}
+function NewPropertyTab() {
+  return (
+    <div>
+< PropertyBody />
+    </div>
+  )
 }
