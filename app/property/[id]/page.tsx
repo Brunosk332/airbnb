@@ -3,6 +3,7 @@ import Image from "next/image";
 import Header from "../../components/header/header";
 import Booking from "./booking";
 import { BookingDatesProvider } from "../../context/bookingContext";
+import Reviews from "../reviews/page";
 async function getProperty(id: string) {
   const res = await fetch(`http://localhost:3000/api/properties/${id}`, {
     cache: "no-store",
@@ -126,28 +127,11 @@ export default async function PropertyDetails({
                   R$ {Number(property.price_per_night)}
                 </span>
               </p>
-
-
-
-
-
 <BookingDatesProvider>
   <Booking property={property} />
 </BookingDatesProvider>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+<Reviews />
               <p className="text-center text-sm text-neutral-500 mt-2">
                 Você ainda não será cobrado
               </p>
