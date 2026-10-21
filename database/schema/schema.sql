@@ -1,0 +1,5 @@
+-- DROP SCHEMA airbnb;
+
+CREATE SCHEMA airbnb AUTHORIZATION postgres;
+
+CREATE EXTENSION IF NOT EXISTS btree_gist;
