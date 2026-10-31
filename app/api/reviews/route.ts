@@ -54,9 +54,10 @@ export async function POST(request: Request) {
 
   try {
     // verifica se o usuário ja reservou a propriedade alguma vez
+    
     const booking = await pool.query(
-      `SELECT id FROM airbnb.bookings WHERE property_id = $1 AND guest_id = $2 AND check_out <= CURRENT_DATE`,
-      [propertyId, user.id],
+      `SELECT id FROM airbnb.bookings WHERE property_id = $1 AND guest_id = $2 AND check_in <= CURRENT_DATE`,
+      [propertyId, user.user_id],
     );
     if (booking.rows.length === 0) {
       return NextResponse.json(
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
     // verifica se o usuário já comentou na propriedade
     const existingReview = await pool.query(
       `SELECT comment FROM airbnb.reviews WHERE property_id = $1 AND user_id = $2`,
-      [propertyId, user.id],
+      [propertyId, user.user_id],
     );
     if (existingReview.rows.length > 0) {
       return NextResponse.json(
@@ -80,8 +81,8 @@ export async function POST(request: Request) {
     }
     // insere o comentário na tabela de comentários
     const newReview = await pool.query(
-      `INSERT INTO airbnb.reviews (property_id, user_id, booking_id, comment, stars) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [propertyId, user.id, booking.rows[0].id, optionalReview || null, stars],
+      `INSERT INTO airbnb.reviews (property_id, user_id, comment, rating) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [propertyId, user.user_id, optionalReview, stars],
     );
 
     return NextResponse.json(newReview.rows[0], { status: 201 });
@@ -93,3 +94,4 @@ export async function POST(request: Request) {
     );
   }
 }
+////  apagar a tabela do db, booking id
