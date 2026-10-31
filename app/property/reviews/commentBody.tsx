@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { useParams } from "next/navigation";
+import { Review } from "@/lib/apiReviews";
 
 type Props = {
   existingReview?: {
@@ -25,22 +26,12 @@ export default function CommentBody({ existingReview }: Props) {
     setError("");
     setLoading(true);
 
-    const res = await fetch(isEditing ? `/api/reviews/edit` : `/api/reviews`, {
-      method: "POST",
-      cache: "no-store",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        propertyId,
-        stars,
-        review,
-      }),
-    });
+    const res = await Review(isEditing, propertyId, stars, review)
 
     setLoading(false);
 
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.error);
+    if (!res.success) {
+      setError(res.message ?? "Erro ao enviar");
       return;
     }
   }
