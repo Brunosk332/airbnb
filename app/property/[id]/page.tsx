@@ -116,6 +116,7 @@ export default async function PropertyDetails({
                 </span>
               </div>
             </div>
+            <Reviews />
           </div>
 
           {/* Coluna direita - card de reserva */}
@@ -130,8 +131,6 @@ export default async function PropertyDetails({
 <BookingDatesProvider>
   <Booking property={property} />
 </BookingDatesProvider>
-
-<Reviews />
               <p className="text-center text-sm text-neutral-500 mt-2">
                 Você ainda não será cobrado
               </p>
