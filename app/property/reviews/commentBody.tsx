@@ -26,7 +26,7 @@ export default function CommentBody({ existingReview }: Props) {
     setError("");
     setLoading(true);
 
-    const res = await Review(isEditing, propertyId, stars, review)
+    const res = await Review(isEditing, propertyId, stars, review);
 
     setLoading(false);
 
@@ -37,6 +37,7 @@ export default function CommentBody({ existingReview }: Props) {
   }
 
   if (loading) return <div>Carregando...</div>;
+
   return (
     <div>
       <form
