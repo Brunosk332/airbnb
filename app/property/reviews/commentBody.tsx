@@ -1,18 +1,17 @@
-"use client";
-import { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { useParams } from "next/navigation";
 import { Review } from "@/lib/apiReviews";
-
+//types
 type Props = {
   existingReview?: {
     stars?: number;
     comment?: string;
   };
 };
+//page
 export default function CommentBody({ existingReview }: Props) {
+  //hooks
   const isEditing = !!existingReview;
-  console.log(existingReview);
   const starsArray = [5, 4, 3, 2, 1];
   const [loading, setLoading] = useState(false);
   const [stars, setStars] = useState(existingReview?.stars ?? 0);
@@ -20,7 +19,7 @@ export default function CommentBody({ existingReview }: Props) {
   const [error, setError] = useState("");
   const property = useParams<{ id: string }>();
   const propertyId = property.id;
-
+// handler
   async function reviewHandler(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
@@ -34,10 +33,11 @@ export default function CommentBody({ existingReview }: Props) {
       setError(res.message ?? "Erro ao enviar");
       return;
     }
+    window.location.reload();
   }
-
+// se estiver Carregando
   if (loading) return <div>Carregando...</div>;
-
+//  JSX
   return (
     <div>
       <form

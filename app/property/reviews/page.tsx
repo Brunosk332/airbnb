@@ -1,21 +1,21 @@
-"use client";
+"use client"
 import CommentBody from "./commentBody";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { getReviews } from "@/lib/apiReviews";
 import ReviewsBody from "./reviewsBody";
+// page
 export default function ReviewPage() {
+  //hooks
   const [loading, setLoading] = useState(true);
   const [reviewStatus, setReviewStatus] = useState("");
   const [commentMenu, setCommentMenu] = useState(false);
-  const [mode, setMode] = useState<"comment" | "edit">("comment");
   const [existingReview, setExistingReview] = useState<
     { stars: number; comment: string } | undefined
   >();
-
   const property = useParams<{ id: string }>();
   const propertyId = property.id;
-
+  // verifica se o usuário pode comentar
   useEffect(() => {
     async function commentAvailability() {
       setLoading(true);
@@ -31,7 +31,6 @@ export default function ReviewPage() {
           comment: data.review.comment,
         });
         setReviewStatus("edit");
-        setMode("edit");
         setLoading(false);
         // nao permite o usuario editar nem comentar
       } else if (status === 403) {
@@ -41,12 +40,13 @@ export default function ReviewPage() {
       } else {
         setReviewStatus("error");
         setLoading(false);
-      } // criar a page separada de editar comentario e de exibicao
+      }
     }
     commentAvailability();
   }, [propertyId]);
-
+// se estiver carregando
   if (loading) return <div>Carregando...</div>;
+  // se não puder comentar exibe somente avaliações
   if (reviewStatus === "unavailable" || reviewStatus === "error")
     return (
       <div>
@@ -54,6 +54,7 @@ export default function ReviewPage() {
         <ReviewsBody />
       </div>
     );
+  // se o usuário tiver permissão para comentar  
   if (reviewStatus === "comment")
     return (
       <div>
@@ -77,6 +78,7 @@ export default function ReviewPage() {
         <ReviewsBody />
       </div>
     );
+    // se o usuáario tiver permissão para editar o comentário
   if (reviewStatus === "edit")
     return (
       <div>

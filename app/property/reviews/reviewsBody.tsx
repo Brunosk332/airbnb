@@ -1,8 +1,7 @@
-// fazer parte paara mostrar os comentarios;
 import { useParams } from "next/navigation";
 import { showReviews } from "@/lib/apiReviews";
 import { useState, useEffect } from "react";
-
+// types
 type Review = {
   id: number;
   rating: number | string;
@@ -11,22 +10,28 @@ type Review = {
   name: string;
   avatar_url: string | null;
 };
-
+// page
 export default function ReviewsBody() {
+  // hooks
   const [error, setError] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(12);
   const property = useParams<{ id: string }>();
+
+  // variáveis 
   const propertyId = property.id;
   const total = reviews.length;
+  // média de estrelas
   const average = reviews.reduce((sum, r) => sum + Number(r.rating), 0) / total;
   const distribution = [5, 4, 3, 2, 1].map((n) => ({
     n,
     count: reviews.filter((r) => Number(r.rating) === n).length,
   }));
+  // buscador de reviews
   useEffect(() => {
     async function getReviews() {
+      try {
       const { success, reviews } = await showReviews(Number(propertyId));
 
       if (!success) {
@@ -36,26 +41,33 @@ export default function ReviewsBody() {
       }
       setReviews(reviews);
       setLoading(false);
+    }catch (error) {
+      console.error(error);
+      setError(true);
+
     }
-    getReviews();
+  }    getReviews();
   }, [propertyId]);
+  // embaralha as reviews
   const sorted = [...reviews].sort(
     (a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
   );
+  // se der erro ao buscar reviews 
   if (error) {
     return (
       <p className="text-neutral-500">Erro ao carregar. Tente novamente.</p>
     );
   }
+  // se estiver buscando reviews
   if (loading) {
     return <p className="text-neutral-500">Carregando...</p>;
   }
-
+  // se não tiver reviews
   if (sorted.length === 0) {
     return <p className="text-neutral-500">Nenhuma avaliação ainda.</p>;
   }
-
+  // JSX
   return (
     <div className="mb-50">
       <div className="mt-10 flex flex-col gap-6 md:flex-row md:items-center">
