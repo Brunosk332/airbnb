@@ -9,7 +9,7 @@ type Review = {
   comment: string | null;
   updated_at: string;
   name: string;
-  //    photo_url: string | null;
+  avatar_url: string | null;
 };
 
 export default function ReviewsBody() {
@@ -32,8 +32,9 @@ export default function ReviewsBody() {
     }
     getReviews();
   }, [propertyId]);
-  const sorted = [...reviews].sort(
-    (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
+  const sorted = [...reviews].sort( 
+    (a, b) =>
+      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
   );
 
   if (sorted.length === 0) {
@@ -45,19 +46,23 @@ export default function ReviewsBody() {
       {sorted.map((r) => (
         <article key={r.id} className="flex flex-col gap-3">
           <header className="flex items-center gap-3">
-          {/*{r.photo_url ? (
+            {r.avatar_url ? (
               <img
-                src={r.photo_url}
+                src={r.avatar_url}
                 alt={r.name}
-                className="h-12 w-12 rounded-full object-cover"
+                className="h-10 w-10 rounded-full object-cover"
               />
             ) : (
-              <div className="h-12 w-12 rounded-full bg-neutral-200" />
+              <div className="grid h-12 w-12 items-center justify-center rounded-full bg-neutral-200">
+                <p className="font-semibold text-neutral-700 text-1xl">{r.name?.charAt(0).toUpperCase()}</p>
+              </div>
             )}
-            */}
             <div>
               <p className="font-semibold text-neutral-900">{r.name}</p>
-              <time className="text-sm text-neutral-500" dateTime={r.updated_at}>
+              <time
+                className="text-sm text-neutral-500"
+                dateTime={r.updated_at}
+              >
                 {new Date(r.updated_at).toLocaleDateString("pt-BR", {
                   day: "2-digit",
                   month: "long",
@@ -67,9 +72,19 @@ export default function ReviewsBody() {
             </div>
           </header>
 
-          <div aria-label={`${Number(r.rating)} de 5 estrelas`} className="text-xl leading-none">
+          <div
+            aria-label={`${Number(r.rating)} de 5 estrelas`}
+            className="text-xl leading-none"
+          >
             {[1, 2, 3, 4, 5].map((n) => (
-              <span key={n} className={n <= Number(r.rating) ? "text-neutral-900" : "text-neutral-300"}>
+              <span
+                key={n}
+                className={
+                  n <= Number(r.rating)
+                    ? "text-neutral-900"
+                    : "text-neutral-300"
+                }
+              >
                 ★
               </span>
             ))}
