@@ -2,6 +2,8 @@
 import CommentBody from "./commentBody";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { getReviews } from "@/lib/apiReviews"
+import  ReviewsBody from "./reviewsBody"
 export default function ReviewPage() {
     const [loading, setLoading] = useState(true);
     const [reviewStatus, setReviewStatus] = useState("");
@@ -14,22 +16,19 @@ export default function ReviewPage() {
     useEffect(() => {
     async function commentAvailability() {
         setLoading(true);
-      const res = await fetch(`/api/reviews/verify/${propertyId}`, {
-        cache: "no-store",
-      });
+      const {status, data} = await getReviews(Number(propertyId))
     // permite o usuario comentar
-      if (res.status  === 200) {
+      if (status  === 200) {
         setReviewStatus("comment")
         setLoading(false);
         // permite o usuario editar seu comentario
-      }else if (res.status === 409) {
-            const data = await res.json()
+      }else if (status === 409) {
             setExistingReview({ stars: Number(data.review.rating), comment: data.review.comment })
             setReviewStatus("comment")
             setMode("edit")
             setLoading(false);
             // nao permite o usuario editar nem comentar
-        } else if (res.status === 403) {
+        } else if (status === 403) {
             setReviewStatus("unavailable")
             setLoading(false);
             // erro no servidor/banco de dados 
@@ -47,6 +46,7 @@ export default function ReviewPage() {
     if (reviewStatus === "comment" )return (
         <div>
             <CommentBody existingReview={existingReview} />
+            <ReviewsBody/>
         </div>
 
     );
