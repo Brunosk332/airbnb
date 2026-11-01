@@ -44,4 +44,18 @@ export async function Review(
     return { success: false, message: "Erro de conexão" };
   }
 }
-
+export async function showReviews(property_id: number) {
+  try {
+    const res = await fetch(`${API_URL}/reviews/check/${property_id}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return { success: false, reviews: [] };
+    }
+    const data = await res.json();
+    return { success: true, reviews: data.reviews };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Erro ao buscar avaliações" };
+  }
+}
