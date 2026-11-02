@@ -69,7 +69,7 @@ export async function userReviews() {
       return { success: false, reviews: [] };
     }
     const data = await res.json();
-    return { success: true, reviews: data.reviews };
+    return { success: true, reviews: data };
   } catch (error) {
     console.error(error);
     return {
