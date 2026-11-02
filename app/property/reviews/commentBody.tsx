@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Review } from "@/lib/apiReviews";
 //types
@@ -13,22 +13,26 @@ export default function CommentBody({ existingReview }: Props) {
   //hooks
   const isEditing = !!existingReview;
   const starsArray = [5, 4, 3, 2, 1];
+  // loading para desabilitar o submit
   const [loading, setLoading] = useState(false);
   const [stars, setStars] = useState(existingReview?.stars ?? 0);
   const [review, setReview] = useState(existingReview?.comment ?? "");
   const [error, setError] = useState("");
   const property = useParams<{ id: string }>();
   const propertyId = property.id;
+  // ref para evitar clique duplo no submit
+  const submittingRef = useRef(false)
 // handler
   async function reviewHandler(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
+    // ref para evitar clique duplo no submit
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setError("");
     setLoading(true);
-
     const res = await Review(isEditing, propertyId, stars, review);
-
     setLoading(false);
-
+    submittingRef.current = false
     if (!res.success) {
       setError(res.message ?? "Erro ao enviar");
       return;
@@ -107,10 +111,11 @@ export default function CommentBody({ existingReview }: Props) {
           </span>
         )}
         <button
+        disabled={loading}
           type="submit"
           className="self-end rounded-lg bg-gradient-to-r from-rose-500 to-pink-600 px-6 py-3 font-semibold text-white transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
         >
-          Enviar
+          {loading ? "Enviando..." : isEditing ? "Salvar alterações" : "Enviar"}
         </button>
       </form>
 
