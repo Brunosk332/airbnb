@@ -67,12 +67,6 @@ export default async function PropertyDetails({
               {(property.bedrooms ?? 1) > 1 ? "s" : ""} · {property.beds ?? 1}{" "}
               camas · {property.bathrooms ?? 1} banheiro
             </p>
-            <p className="mt-2 flex items-center gap-1 text-neutral-500">
-              ★ {property.rating} ·{" "}
-              <span className="underline">
-                {property.reviewCount ?? 0} avaliações
-              </span>
-            </p>
             <hr className="my-6" />
 
             <div className="flex items-center gap-3 text-neutral-600">
