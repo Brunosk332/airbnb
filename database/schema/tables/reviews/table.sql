@@ -12,6 +12,7 @@ CREATE TABLE airbnb.reviews (
 	"comment" text NULL,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	CONSTRAINT one_review_per_user_property UNIQUE (property_id, user_id),
 	CONSTRAINT reviews_created_at_not_null NOT NULL created_at,
 	CONSTRAINT reviews_id_not_null NOT NULL id,
 	CONSTRAINT reviews_pkey PRIMARY KEY (id),
