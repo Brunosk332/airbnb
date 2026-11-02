@@ -18,12 +18,12 @@ export async function GET() {
               r.*,
               p.type,
               p.location,
-              i.image_url
+              i.url
             FROM airbnb.reviews r
             JOIN airbnb.properties p
-              ON p.property_id = r.property_id
+              ON p.id = r.property_id
             JOIN airbnb.images i
-              ON i.property_id = p.property_id
+              ON i.property_id = p.id
               AND i.category = 'cover'
             WHERE r.user_id = $1`,
       [user.user_id],
