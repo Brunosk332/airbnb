@@ -1,3 +1,4 @@
+import { getSessionUser } from "./auth";
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api";
 
 interface Review {
@@ -57,5 +58,23 @@ export async function showReviews(property_id: number) {
   } catch (error) {
     console.error(error);
     return { success: false, message: "Erro ao buscar avaliações" };
+  }
+}
+export async function userReviews() {
+  try {
+    const res = await fetch(`${API_URL}/reviews/userReviews`, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      return { success: false, reviews: [] };
+    }
+    const data = await res.json();
+    return { success: true, reviews: data.reviews };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Você ainda não possui nenhuma avaliação",
+    };
   }
 }
