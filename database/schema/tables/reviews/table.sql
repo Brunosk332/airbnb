@@ -8,7 +8,7 @@ CREATE TABLE airbnb.reviews (
 	id serial4 NOT NULL,
 	user_id int4 NOT NULL,
 	property_id int4 NOT NULL,
-	rating numeric(3, 2) NOT NULL,
+	rating numeric(1) NOT NULL,
 	"comment" text NULL,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
