@@ -3,12 +3,12 @@ interface RoomProps {
   title: string;
   photo: string;
   period: string;
-  totalPrice: number;
+  price_per_night: number;
   rating: number; // ex: 4.5 (de 0 a 5)
 }
 //LOGO AIRBNB
 //NAVIGATION BAR
-export function Room({ title, photo, period, totalPrice, rating }: RoomProps) {
+export function Room({ title, photo, period, price_per_night, rating }: RoomProps) {
   return (
     <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
       <Image src={photo} alt={title} className="w-full h-48 object-cover" />
@@ -19,14 +19,14 @@ export function Room({ title, photo, period, totalPrice, rating }: RoomProps) {
 
           <div className="flex items-center gap-1">
             <span>⭐</span>
-            <span className="text-sm">{rating.toFixed(1)}</span>
+            <span className="text-sm">{Number(rating.toFixed(0))}</span>
           </div>
         </div>
 
         <p className="text-gray-500 text-sm mt-1">{period}</p>
 
         <p className="mt-2">
-          <span className="font-bold">R$ {totalPrice.toFixed(2)}</span>{" "}
+          <span className="font-bold">R$ {price_per_night.toFixed(2)}</span>{" "}
           <span className="text-gray-500 text-sm">total</span>
         </p>
       </div>

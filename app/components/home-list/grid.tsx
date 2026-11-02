@@ -1,13 +1,15 @@
 import Card from "./card";
+// types 
 export interface Property {
     id: string;
     imageUrl: string;
     images?: string[];
-    cover_image?: string;
+    url?: string;
     type: string;
     period: string;
     location: string;
-    pricePerNight: number;
+    price_per_night: number;
+    total_reviews: string
     rating: number;
     reviewCount?: number;
     guests?: number;

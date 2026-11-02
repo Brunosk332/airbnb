@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  // verifica se 
+  // verifica se as estrelas são um número inteiro
   if (!Number.isInteger(stars) || stars < 1 || stars > 5) {
     return NextResponse.json(
       { error: "Por favor, selecione um valor entre 1 e 5" },
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
   try {
     // verifica se o usuário ja reservou a propriedade alguma vez
-    
+
     const booking = await pool.query(
       `SELECT id FROM airbnb.bookings WHERE property_id = $1 AND guest_id = $2 AND check_in <= CURRENT_DATE`,
       [propertyId, user.user_id],

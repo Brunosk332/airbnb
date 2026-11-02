@@ -1,14 +1,14 @@
 import { Property } from "./grid";
 import Link from "next/link";
 import Image from "next/image";
-
+// exibe as propriedades na pagina inicial
 export default function Card({ property }: { property: Property }) {
     return (
         <Link href={`/property/${property.id}`}>
         <div className="flex flex-col cursor-pointer group">
             <div className="relative w-full aspect-square rounded-xl overflow-hidden">
                 <Image
-                    src={property.cover_image ?? "/img/placeholder.jpg"}
+                    src={property.url ?? "/img/placeholder.jpg"}
                     alt=""
                     fill
                     unoptimized
@@ -19,10 +19,9 @@ export default function Card({ property }: { property: Property }) {
                 <h3 className="text-sm truncate font-semibold text-neutral-900">
                     {property.type} · {property.location}
                 </h3>
-                <p className="text-sm text-neutral-800 truncate">{property.period}</p>
                 <p className="text-sm mt-1">
                     <span className="text-neutral-800">
-                        Total: R$ {property.pricePerNight} · ★ {property.rating}
+                        Total: R$ {property.price_per_night}  {Number(property.total_reviews) > 0 ? (<>· ★ {Number(property.rating).toFixed(1)} </> ) : ( <span>-</span>)}
                     </span>
                 </p>
             </div>
