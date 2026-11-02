@@ -1,6 +1,7 @@
 import { useParams } from "next/navigation";
 import { showReviews } from "@/lib/apiReviews";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 // types
 type Review = {
   id: number;
@@ -114,7 +115,7 @@ export default function ReviewsBody() {
           <article key={r.id} className="flex flex-col gap-3">
             <header className="flex items-center gap-3">
               {r.avatar_url ? (
-                <img
+                <Image
                   src={r.avatar_url}
                   alt={r.name}
                   className="h-10 w-10 rounded-full object-cover"

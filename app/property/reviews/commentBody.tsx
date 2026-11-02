@@ -113,7 +113,7 @@ export default function CommentBody({ existingReview }: Props) {
         <button
         disabled={loading}
           type="submit"
-          className="self-end rounded-lg bg-gradient-to-r from-rose-500 to-pink-600 px-6 py-3 font-semibold text-white transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
+          className="self-end rounded-lg bg-linear-to-r from-rose-500 to-pink-600 px-6 py-3 font-semibold text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
         >
           {loading ? "Enviando..." : isEditing ? "Salvar alterações" : "Enviar"}
         </button>
