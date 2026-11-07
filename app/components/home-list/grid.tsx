@@ -2,24 +2,12 @@ import Card from "./card";
 // types 
 export interface Property {
     id: string;
-    imageUrl: string;
-    images?: string[];
     url?: string;
     type: string;
-    period: string;
     location: string;
     price_per_night: number;
     total_reviews: string
     rating: number;
-    reviewCount?: number;
-    guests?: number;
-    bedrooms?: number;
-    beds?: number;
-    bathrooms?: number;
-    hostName?: string;
-    isSuperhost?: boolean;
-    description?: string;
-    amenities?: string[];
   }
 interface GridProps {
     properties: Property[];

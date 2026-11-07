@@ -21,8 +21,8 @@ export default function CommentBody({ existingReview }: Props) {
   const property = useParams<{ id: string }>();
   const propertyId = property.id;
   // ref para evitar clique duplo no submit
-  const submittingRef = useRef(false)
-// handler
+  const submittingRef = useRef(false);
+  // handler
   async function reviewHandler(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     // ref para evitar clique duplo no submit
@@ -32,16 +32,16 @@ export default function CommentBody({ existingReview }: Props) {
     setLoading(true);
     const res = await Review(isEditing, propertyId, stars, review);
     setLoading(false);
-    submittingRef.current = false
+    submittingRef.current = false;
     if (!res.success) {
       setError(res.message ?? "Erro ao enviar");
       return;
     }
     window.location.reload();
   }
-// se estiver Carregando
+  // se estiver Carregando
   if (loading) return <div>Carregando...</div>;
-//  JSX
+  //  JSX
   return (
     <div>
       <form
@@ -111,7 +111,7 @@ export default function CommentBody({ existingReview }: Props) {
           </span>
         )}
         <button
-        disabled={loading}
+          disabled={loading}
           type="submit"
           className="self-end rounded-lg bg-linear-to-r from-rose-500 to-pink-600 px-6 py-3 font-semibold text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
         >

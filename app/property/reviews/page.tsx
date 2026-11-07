@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import CommentBody from "./commentBody";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
@@ -44,7 +44,7 @@ export default function ReviewPage() {
     }
     commentAvailability();
   }, [propertyId]);
-// se estiver carregando
+  // se estiver carregando
   if (loading) return <div>Carregando...</div>;
   // se não puder comentar exibe somente avaliações
   if (reviewStatus === "unavailable" || reviewStatus === "error")
@@ -54,7 +54,7 @@ export default function ReviewPage() {
         <ReviewsBody />
       </div>
     );
-  // se o usuário tiver permissão para comentar  
+  // se o usuário tiver permissão para comentar
   if (reviewStatus === "comment")
     return (
       <div>
@@ -78,7 +78,7 @@ export default function ReviewPage() {
         <ReviewsBody />
       </div>
     );
-    // se o usuáario tiver permissão para editar o comentário
+  // se o usuáario tiver permissão para editar o comentário
   if (reviewStatus === "edit")
     return (
       <div>

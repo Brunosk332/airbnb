@@ -20,7 +20,7 @@ export default function ReviewsBody() {
   const [visible, setVisible] = useState(12);
   const property = useParams<{ id: string }>();
 
-  // variáveis 
+  // variáveis
   const propertyId = property.id;
   const total = reviews.length;
   // média de estrelas
@@ -33,28 +33,28 @@ export default function ReviewsBody() {
   useEffect(() => {
     async function getReviews() {
       try {
-      const { success, reviews } = await showReviews(Number(propertyId));
+        const { success, reviews } = await showReviews(Number(propertyId));
 
-      if (!success) {
+        if (!success) {
+          setLoading(false);
+          setError(true);
+          return;
+        }
+        setReviews(reviews);
         setLoading(false);
+      } catch (error) {
+        console.error(error);
         setError(true);
-        return;
       }
-      setReviews(reviews);
-      setLoading(false);
-    }catch (error) {
-      console.error(error);
-      setError(true);
-
     }
-  }    getReviews();
+    getReviews();
   }, [propertyId]);
   // embaralha as reviews
   const sorted = [...reviews].sort(
     (a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
   );
-  // se der erro ao buscar reviews 
+  // se der erro ao buscar reviews
   if (error) {
     return (
       <p className="text-neutral-500">Erro ao carregar. Tente novamente.</p>
