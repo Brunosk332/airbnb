@@ -1,7 +1,7 @@
-import { Logo } from "../header/logo";
-import { BecomeAnHost } from "../header/becomeAnHost";
-import { MenuButton } from "./menuLogout";
-export default function LogoutHeader() {
+import { Logo } from "./logo";
+import { BecomeAnHost } from "./becomeAnHost";
+import { MenuButton } from "./menu";
+export default function ProfileHeader() {
   return (
     <header className="flex flex-col gap-4 px-4 md:px-8 py-4 bg-white sm:bg-neutral-100">
       <div className="hidden sm:grid max-w-[1852px] mx-auto grid-cols-2 items-center w-full">
