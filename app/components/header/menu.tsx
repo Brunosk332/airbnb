@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react"; // ← tudo importado junto
 import { useAuth } from "../../context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
-import handleLogout from "@/lib/apiLogout";
 // page
 export function MenuButton() {
   //hooks
@@ -12,7 +11,7 @@ export function MenuButton() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const submittingRef = useRef(false);
   // useEffect para fechar o menu quando o usuário clicar em algum lugar da página
   useEffect(() => {
@@ -34,18 +33,21 @@ export function MenuButton() {
     if (submittingRef.current) return;
     submittingRef.current = true;
     setLoading(true);
-
-    const res = await handleLogout();
-    if (!res) {
-      setError("Erro ao sair da conta");
-      submittingRef.current = false;
-      setLoading(false);
+    try {
+    const res = await logout();
+    if (!res.success) {
+      setError( res.message ?? "Erro ao sair da conta");
       return;
     }
     // seta o loading como false e reinicia a página
-    submittingRef.current = false;
-    setLoading(false);
-    window.location.href = "/";
+
+    setLogoutMenu(false);
+    setMenuOpen(false);
+
+  } finally {
+     submittingRef.current = false;
+     setLoading(false);
+  }
   }
 // JSX
   return (
