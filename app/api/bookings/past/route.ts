@@ -19,7 +19,6 @@ export async function GET() {
                 bookings.guest_id,
                 properties.type,
                 properties.location,
-                properties.rating,
                 images.url AS cover
          FROM airbnb.bookings
          JOIN airbnb.sessions    ON sessions.user_id = bookings.guest_id
