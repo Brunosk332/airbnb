@@ -102,9 +102,6 @@ export async function POST(request: Request) {
     }
     // cria um objeto date com a data do dia seguinte para garantiur que o usuario tenha reservado com pelo menos 1 dia de antecedência
     const NextDay = tomorrowInBrasilia();
-    console.log("today", CurrentDate)
-    console.log("NextDay",NextDay);
-    console.log("checkIn",checkIn);
     if (checkIn < NextDay) {
       return NextResponse.json(
         { error: "Você precisa reservar com pelo menos 1 dia de antecedência" },
