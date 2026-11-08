@@ -3,6 +3,7 @@ import { getSessionUser } from "@/lib/auth";
 import { NextResponse } from "next/server";
 export async function GET() {
   try {
+    // verifica se o usuário está logado.
     const user = await getSessionUser();
     if (!user) {
       return NextResponse.json(
@@ -13,6 +14,7 @@ export async function GET() {
         { status: 401 },
       );
     }
+    // busca as reviews do usuário, junto com alguns dados da propriedade.
     const reviews = await pool.query(
       `SELECT
               r.*,
@@ -28,6 +30,7 @@ export async function GET() {
             WHERE r.user_id = $1`,
       [user.user_id],
     );
+    // se não tiverem avaliações retorna sucesso, sem avaliações
     if (!reviews.rows.length) {
       return NextResponse.json(
         { message: "Você não tem nenhuma avaliação ainda" },
