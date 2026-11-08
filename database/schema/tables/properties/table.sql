@@ -9,7 +9,6 @@ CREATE TABLE airbnb.properties (
 	"type" varchar(30) NOT NULL,
 	"location" varchar(100) NOT NULL,
 	price_per_night numeric(10, 2) NOT NULL,
-	rating numeric(3, 2) DEFAULT 0 NULL,
 	created_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	host_id int4 NOT NULL,
@@ -35,7 +34,6 @@ CREATE TABLE airbnb.properties (
 	CONSTRAINT properties_max_guests_not_null NOT NULL max_guests,
 	CONSTRAINT properties_pkey PRIMARY KEY (id),
 	CONSTRAINT properties_price_per_night_not_null NOT NULL price_per_night,
-	CONSTRAINT properties_rating_check CHECK (((rating >= (0)::numeric) AND (rating <= (5)::numeric))),
 	CONSTRAINT properties_type_not_null NOT NULL type,
 	CONSTRAINT properties_updated_at_not_null NOT NULL updated_at
 );

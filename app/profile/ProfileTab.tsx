@@ -5,8 +5,9 @@ import { useAuth } from "../context/AuthContext";
 import PastBookings from "./pastBookings";
 import Bookings from "./bookings";
 import PropertyBody from "./newProperty/PropertyBody";
+import Reviews from "./reviewsTab"
 // types
-type Tab = "aboutMe" | "bookings" | "pastBookings" | "connections" | "newProperty";
+type Tab = "aboutMe" | "bookings" | "pastBookings" | "connections" | "newProperty" | "reviews";
 
 // page
 export default function ProfileTabs() {
@@ -20,13 +21,13 @@ export default function ProfileTabs() {
     { id: "bookings", label: "Viagens", icon: "📝" },
     { id: "pastBookings", label: "Viagens anteriores", icon: "🧳" },
     { id: "connections", label: "Conexões", icon: "👥" },
-    { id: "newProperty", label: "Nova propriedade", icon: "➕"}
-
+    { id: "newProperty", label: "Nova propriedade", icon: "➕"},
+    {id: "reviews", label: "Avaliações", icon: "⭐" }
   ];
 
 // seção de navegação
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-4xl w-full mx-auto px-4 py-10 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] max-w-6xl w-full mx-auto px-4 py-10 gap-8">
       {/* Sidebar */}
       <div className="md:sticky md:top-24 md:self-start">
         <h1 className="text-3xl font-semibold mb-6">Perfil</h1>
@@ -59,6 +60,7 @@ export default function ProfileTabs() {
         {activeTab === "pastBookings" && <PastBookingsTab />}
         {activeTab === "connections" && <ConectionsTab />}
         {activeTab === "newProperty" && <NewPropertyTab />}
+        {activeTab === "reviews" && <ReviewsTab />}
       </div>
     </div>
   );
@@ -143,5 +145,12 @@ function NewPropertyTab() {
     <div>
 < PropertyBody />
     </div>
+  )
+}
+function ReviewsTab() {
+  return (
+  <div>
+  <Reviews/>
+  </div>
   )
 }

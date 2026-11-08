@@ -5,7 +5,7 @@ import { Footer } from "./components/footer/footer"
 import TravelInspiration from "./components/footer/travels"
 
 async function getProperties() {
-  const res = await fetch("http://localhost:3000/api/properties", { cache: "no-store" });
+  const res = await fetch("http://localhost:3000/api/properties/simplified", { cache: "no-store" });
   return res.json();
 }
 

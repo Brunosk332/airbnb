@@ -74,7 +74,7 @@ transition-colors"
   {bookings.map((booking: Booking) => (
     <div
       key={booking.id}
-      className="grid grid-cols-[128px_1fr_1fr_auto] items-start gap-6 rounded-xl border border-neutral-200 p-4 mb-4"
+      className="grid grid-cols-[128px_1fr_1fr_auto] items-start gap-6 rounded-xl border border-neutral-200 p-4 mb-4 pr-10"
     >
       {/* imagem de capa */}
       {booking.cover && (

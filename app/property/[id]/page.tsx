@@ -3,6 +3,7 @@ import Image from "next/image";
 import Header from "../../components/header/header";
 import Booking from "./booking";
 import { BookingDatesProvider } from "../../context/bookingContext";
+import Reviews from "../reviews/page";
 async function getProperty(id: string) {
   const res = await fetch(`http://localhost:3000/api/properties/${id}`, {
     cache: "no-store",
@@ -66,12 +67,6 @@ export default async function PropertyDetails({
               {(property.bedrooms ?? 1) > 1 ? "s" : ""} · {property.beds ?? 1}{" "}
               camas · {property.bathrooms ?? 1} banheiro
             </p>
-            <p className="mt-2 flex items-center gap-1 text-neutral-500">
-              ★ {property.rating} ·{" "}
-              <span className="underline">
-                {property.reviewCount ?? 0} avaliações
-              </span>
-            </p>
             <hr className="my-6" />
 
             <div className="flex items-center gap-3 text-neutral-600">
@@ -115,6 +110,7 @@ export default async function PropertyDetails({
                 </span>
               </div>
             </div>
+            <Reviews />
           </div>
 
           {/* Coluna direita - card de reserva */}
@@ -126,28 +122,9 @@ export default async function PropertyDetails({
                   R$ {Number(property.price_per_night)}
                 </span>
               </p>
-
-
-
-
-
 <BookingDatesProvider>
   <Booking property={property} />
 </BookingDatesProvider>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               <p className="text-center text-sm text-neutral-500 mt-2">
                 Você ainda não será cobrado
               </p>
